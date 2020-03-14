@@ -79,11 +79,11 @@ namespace KaimGames.Web
             });
 
             // Hack workaround for EF Core automatic migrations.
-            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            using (var context = scope.ServiceProvider.GetService<ApplicationDbContext>())
-            {
-                context.Database.Migrate();
-            }
+            //using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            //using (var context = scope.ServiceProvider.GetService<ApplicationDbContext>())
+            //{
+            //    context.Database.Migrate();
+            //}
         }
     }
 }
