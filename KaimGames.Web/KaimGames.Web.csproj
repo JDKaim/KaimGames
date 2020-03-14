@@ -29,6 +29,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\CodeBreaker\KaimGames.CodeBreaker.Common\KaimGames.CodeBreaker.Common.csproj" />
     <ProjectReference Include="..\KaimGames.Common\KaimGames.Common.csproj" />
     <ProjectReference Include="..\Minesweeper\KaimGames.Minesweeper.Common\KaimGames.Minesweeper.Common.csproj" />
   </ItemGroup>

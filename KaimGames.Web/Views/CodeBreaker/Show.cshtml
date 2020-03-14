@@ -1,0 +1,83 @@
+﻿@using KaimGames.CodeBreaker.Common;
+
+@model CodeBreakerGameViewModel
+@{
+    ViewBag.Title = $"CodeBreaker";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>
+    @if (Model.Game.IsOver)
+    {
+        <span>You won!</span>
+    }
+    else
+    {
+        <span>Guess...</span>
+    }
+</h3>
+
+<p><a asp-action="Create" asp-controller="CodeBreaker" asp-route-codeLength="@Model.Game.CodeLength" asp-route-codeOptionsLength="@Model.Game.CodeOptions.Length">Restart</a></p>
+
+@using (Html.BeginForm("Guess", "CodeBreaker", FormMethod.Get, new { @class = "form-horizontal", role = "form", onSubmit = "return formValidation();" }))
+{
+    <table class="table table-responsive">
+        <tbody>
+            @if (!Model.Game.IsOver)
+            {
+                <tr>
+                    <td></td>
+                    @for (int lcv = 0; lcv < Model.Game.CodeLength; lcv++)
+                    {
+                        <td width="100px">
+                            <select name="code" class="form-control codebreaker-option">
+                                @foreach (char option in Model.Game.CodeOptions)
+                                {
+                                    <option value='@option' class="codebreaker-option-@option" selected="@(option == Model.PreviousCode[lcv])">@Html.Raw(Model.CodeOptionMap[option])</option>
+                                }
+                            </select>
+                        </td>
+                    }
+
+                    <td><input type="submit" value="Guess" /></td>
+                </tr>
+            }
+
+            @for (int round = Model.Game.Guesses.Count; round > 0; round--)
+            {
+                Guess guess = Model.Game.Guesses[round - 1];
+
+                <tr>
+                    <td><strong>@round</strong></td>
+
+                    @foreach (char c in guess.Code)
+                    {
+                        <td class="text-center">
+                            <span class="codebreaker-option codebreaker-option-@c">@(Html.Raw(Model.CodeOptionMap[c]))</span>
+                        </td>
+                    }
+
+                    <td>
+                        @for (int lcv = 0; lcv < guess.ExactlyCorrect; lcv++)
+                        {
+                            <span class="codebreaker-correct-exact"></span>
+                        }
+                        @for (int lcv = 0; lcv < guess.WrongLocation; lcv++)
+                        {
+                            <span class="codebreaker-correct-wrong-location"></span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        function formValidation() {
+            return true;
+        }
+    </script>
+}

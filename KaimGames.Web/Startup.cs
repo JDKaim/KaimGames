@@ -29,6 +29,15 @@ namespace KaimGames.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -39,27 +48,14 @@ namespace KaimGames.Web
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddSession(options =>
-            {
-                // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
-                // Make the session cookie essential
-                options.Cookie.IsEssential = true;
-            });
-
-            // NOTE: This line of code will kick off the proess to apply migrations using our Entity Framework Core code.
-            // Unfortunately, EF Core didn't support automatic migrations at the time we put this together, so this was our
-            // best solution. Unfortunately, it doesn't work in our Linux-on-Azure setup and I burned hours trying to debug
-            // it to no avail.
-            //
-            // When migrations need to happen, do the following (yes, I know this sucks, but there's no better option):
+            // This is currently enabled since it seems to be working now. If there are issues, then consider commenting
+            // it out and follow the directions below to make migrations happen:
             // 1. Open the SQL Azure firewall for your IP.
             // 2. Copy the production SQL connection string into this project's settings.
             // 3. Uncomment the line below.
             // 4. Run the app. After one run, the update should be applied. Then you can undo the steps above.
             //
-            //services.AddHostedService<MigratorHostedService>();
+            services.AddHostedService<MigratorHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,6 +75,7 @@ namespace KaimGames.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();

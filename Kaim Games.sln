@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaimGames.Common", "KaimGames.Common\KaimGames.Common.csproj", "{F3310C8C-3F7B-4624-AD7D-1513D3BFD611}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaimGames.Common", "KaimGames.Common\KaimGames.Common.csproj", "{F3310C8C-3F7B-4624-AD7D-1513D3BFD611}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaimGames.Web", "KaimGames.Web\KaimGames.Web.csproj", "{0E54A67D-6606-4DF2-B801-458AD7C13CB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaimGames.Web", "KaimGames.Web\KaimGames.Web.csproj", "{0E54A67D-6606-4DF2-B801-458AD7C13CB5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Minesweeper", "Minesweeper", "{E145708C-B56B-456B-B454-5A903252C18E}"
 EndProject
@@ -14,6 +14,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaimGames.Minesweeper.Tests", "Minesweeper\KaimGames.Minesweeper.Tests\KaimGames.Minesweeper.Tests.csproj", "{ED108D9F-3789-41CC-B0C0-46E76B33B6C7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaimGames.Minesweeper.ConsoleApp", "Minesweeper\KaimGames.Minesweeper.ConsoleApp\KaimGames.Minesweeper.ConsoleApp.csproj", "{98E27904-2BA3-4A2E-A6A9-22A4019B3531}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeBreaker", "CodeBreaker", "{B7DEC180-1C81-4B01-B2B8-9DEB0CE3072F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaimGames.CodeBreaker.Common", "CodeBreaker\KaimGames.CodeBreaker.Common\KaimGames.CodeBreaker.Common.csproj", "{26E45D10-A8A4-42B9-8C2D-C5893A96E601}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaimGames.CodeBreaker.ConsoleApp", "CodeBreaker\KaimGames.CodeBreaker.ConsoleApp\KaimGames.CodeBreaker.ConsoleApp.csproj", "{DB0E6802-33A9-400F-99B3-0E90E4C37873}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +47,14 @@ Global
 		{98E27904-2BA3-4A2E-A6A9-22A4019B3531}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98E27904-2BA3-4A2E-A6A9-22A4019B3531}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98E27904-2BA3-4A2E-A6A9-22A4019B3531}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26E45D10-A8A4-42B9-8C2D-C5893A96E601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E45D10-A8A4-42B9-8C2D-C5893A96E601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E45D10-A8A4-42B9-8C2D-C5893A96E601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E45D10-A8A4-42B9-8C2D-C5893A96E601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB0E6802-33A9-400F-99B3-0E90E4C37873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB0E6802-33A9-400F-99B3-0E90E4C37873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB0E6802-33A9-400F-99B3-0E90E4C37873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB0E6802-33A9-400F-99B3-0E90E4C37873}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +63,8 @@ Global
 		{A5A4F75D-3E9A-48CD-B163-0D0E620A83B6} = {E145708C-B56B-456B-B454-5A903252C18E}
 		{ED108D9F-3789-41CC-B0C0-46E76B33B6C7} = {E145708C-B56B-456B-B454-5A903252C18E}
 		{98E27904-2BA3-4A2E-A6A9-22A4019B3531} = {E145708C-B56B-456B-B454-5A903252C18E}
+		{26E45D10-A8A4-42B9-8C2D-C5893A96E601} = {B7DEC180-1C81-4B01-B2B8-9DEB0CE3072F}
+		{DB0E6802-33A9-400F-99B3-0E90E4C37873} = {B7DEC180-1C81-4B01-B2B8-9DEB0CE3072F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7A7BFF75-0C96-4417-B285-37BD206D489F}
