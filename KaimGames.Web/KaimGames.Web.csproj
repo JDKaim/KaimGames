@@ -5,6 +5,15 @@
     <UserSecretsId>aspnet-KaimGames.Web-6E4512F1-E741-4E84-9FCC-D2428D442855</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200313045929_InitialCreate.cs" />
+    <Compile Remove="Data\Migrations\20200313045929_InitialCreate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200314035617_AddDisplayName.cs" />
+    <Compile Remove="Data\Migrations\20200314035617_AddDisplayName.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
@@ -15,12 +24,18 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
 
   <ItemGroup>
     <ProjectReference Include="..\KaimGames.Common\KaimGames.Common.csproj" />
     <ProjectReference Include="..\Minesweeper\KaimGames.Minesweeper.Common\KaimGames.Minesweeper.Common.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>
