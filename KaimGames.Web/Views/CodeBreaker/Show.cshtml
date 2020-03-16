@@ -10,7 +10,7 @@
 <h3>
     @if (Model.Game.IsOver)
     {
-        <span>You won!</span>
+        <span>You won in @Model.Game.Guesses.Count guesses!</span>
     }
     else
     {
@@ -20,8 +20,7 @@
 
 <p><a asp-action="Create" asp-controller="CodeBreaker" asp-route-codeLength="@Model.Game.CodeLength" asp-route-codeOptionsLength="@Model.Game.CodeOptions.Length">Restart</a></p>
 
-@using (Html.BeginForm("Guess", "CodeBreaker", FormMethod.Get, new { @class = "form-horizontal", role = "form", onSubmit = "return formValidation();" }))
-{
+<form asp-controller="CodeBreaker" asp-action="Guess" method="GET">
     <table class="table table-responsive">
         <tbody>
             @if (!Model.Game.IsOver)
@@ -40,7 +39,7 @@
                         </td>
                     }
 
-                    <td><input type="submit" value="Guess" /></td>
+                    <td><button type="submit" class="btn btn-primary">Guess</button></td>
                 </tr>
             }
 
@@ -49,7 +48,7 @@
                 Guess guess = Model.Game.Guesses[round - 1];
 
                 <tr>
-                    <td><strong>@round</strong></td>
+                    <td><small>@round</small></td>
 
                     @foreach (char c in guess.Code)
                     {
@@ -72,7 +71,7 @@
             }
         </tbody>
     </table>
-}
+</form>
 
 @section Scripts {
     <script type="text/javascript">

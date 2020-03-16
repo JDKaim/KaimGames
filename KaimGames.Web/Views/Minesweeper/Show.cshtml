@@ -35,7 +35,7 @@
 
 @for (int row = 0; row < Model.Game.Board.Rows; row++)
 {
-    <div>
+    <div class="minesweeper-row">
         @for (int column = 0; column < Model.Game.Board.Columns; column++)
         {
             Cell cell = Model.Game.Board.GetAt(row, column);
@@ -43,7 +43,7 @@
             switch (cell.State)
             {
                 case CellState.Pristine:
-                    <div class="text-center cell cell-pristine">
+                    <div class="text-center minesweeper-cell minesweeper-cell-pristine">
                         @if (!Model.Game.IsGameOver)
                         {
                             <a href="@Url.Action("Mark", new { row = row, column = column })"><i class="fa fa-bullseye"></i></a>
@@ -62,7 +62,7 @@
                 case CellState.Flagged:
                     if (!Model.Game.IsGameOver)
                     {
-                        <div class="text-center cell cell-flagged">
+                        <div class="text-center minesweeper-cell minesweeper-cell-flagged">
                             <a href="@Url.Action("Clear", new { row = row, column = column })" class="fill-div">
                                 <i class="fa fa-flag text-warning"></i>
                             </a>
@@ -70,13 +70,13 @@
                     }
                     else if (cell.IsMine)
                     {
-                        <div class="text-center cell cell-flagged-correctly">
+                        <div class="text-center minesweeper-cell minesweeper-cell-flagged-correctly">
                             <i class="fa fa-flag text-success"></i>
                         </div>
                     }
                     else
                     {
-                        <div class="text-center cell cell-flagged-incorrectly">
+                        <div class="text-center minesweeper-cell minesweeper-cell-flagged-incorrectly">
                             <i class="fa fa-flag text-danger"></i>
                         </div>
                     }
@@ -84,13 +84,13 @@
                 case CellState.Revealed:
                     if (cell.IsMine)
                     {
-                        <div class="text-center cell cell-mine">
+                        <div class="text-center minesweeper-cell minesweeper-cell-mine">
                             <i class="fa fa-certificate text-danger"></i>
                         </div>
                     }
                     else if (cell.SurroundingMines > 0)
                     {
-                        <div class="text-center cell cell-@cell.SurroundingMines">
+                        <div class="text-center minesweeper-cell minesweeper-cell-@cell.SurroundingMines">
                             @if (!Model.Game.IsGameOver)
                             {
                                 <a href="@Url.Action("RevealSurroundings", new { row = row, column = column })" class="fill-div">
@@ -105,7 +105,7 @@
                     }
                     else
                     {
-                        <div class="text-center cell cell-0">
+                        <div class="text-center minesweeper-cell minesweeper-cell-0">
                             <span>&nbsp;</span>
                         </div>
                     }

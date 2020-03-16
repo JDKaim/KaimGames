@@ -25,7 +25,6 @@ namespace KaimGames.Web.Controllers
             _logger = logger;
         }
 
-
         public ActionResult Show()
         {
             Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);

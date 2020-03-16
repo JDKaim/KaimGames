@@ -2,79 +2,90 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+a.fill-div {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
 }
 
 /* Start CodeBreaker */
 
 .codebreaker-option {
     font-family: 'Lato', 'Font Awesome 5 Free';
-    font-weight: 900;
+    font-weight: bolder;
+    font-size: large;
 }
 
 .codebreaker-option-1 {
@@ -137,77 +148,74 @@ body {
 
 /* Start Minesweeper */
 
-.cell {
+.minesweeper-row {
+    white-space: nowrap;
+}
+
+.minesweeper-cell {
     height: 40px;
     width: 40px;
     padding-top: 8px;
-    margin-left: -4px;
+    margin-left: -5px;
     /*margin-bottom: 4px; /* This is a hack to be consistent with the 4px between horizontal cells. */
     display: inline-block;
     border: 1px solid sandybrown;
 }
 
-.cell-pristine {
+.minesweeper-cell-pristine {
     background-color: rgba(0, 0, 0, .1);
 }
 
-.cell-flagged {
+.minesweeper-cell-flagged {
     background-color: rgba(255, 255, 0, .1);
 }
 
-.cell-flagged-correctly {
+.minesweeper-cell-flagged-correctly {
     background-color: rgba(0, 255, 0, .1);
 }
 
-.cell-flagged-incorrectly {
+.minesweeper-cell-flagged-incorrectly {
     background-color: rgba(255, 0, 0, .1);
 }
 
-.cell-mine {
+.minesweeper-cell-mine {
     background-color: rgba(255, 0, 0, .1);
 }
 
-.cell-0 {
+.minesweeper-cell-0 {
     background-color: rgba(255, 255, 255, .7);
 }
 
-.cell-1 {
+.minesweeper-cell-1 {
     background-color: rgba(0, 255, 0, .1);
 }
 
-.cell-2 {
+.minesweeper-cell-2 {
     background-color: rgba(0, 0, 255, .1);
 }
 
-.cell-3 {
+.minesweeper-cell-3 {
     background-color: rgba(255, 0, 255, .1);
 }
 
-.cell-4 {
+.minesweeper-cell-4 {
     background-color: rgba(0, 255, 255, .1);
 }
 
-.cell-5 {
+.minesweeper-cell-5 {
     background-color: rgba(255, 255, 0, .1);
 }
 
-.cell-6 {
+.minesweeper-cell-6 {
     background-color: rgba(160, 160, 160, .1);
 }
 
-.cell-7 {
+.minesweeper-cell-7 {
     background-color: rgba(80, 80, 80, .1);
 }
 
-.cell-8 {
+.minesweeper-cell-8 {
     background-color: rgba(0, 0, 0, .1);
-}
-
-a.fill-div {
-    display: block;
-    height: 100%;
-    width: 100%;
-    text-decoration: none;
 }
 
 /* End Minesweeper */
