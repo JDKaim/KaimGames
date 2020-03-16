@@ -6,8 +6,8 @@ namespace KaimGames.Minesweeper.Common
 {
     public enum CellState
     {
-        Pristine,
-        Revealed,
-        Flagged
+        Pristine = 0,
+        Revealed = 1,
+        Flagged = 2
     }
 }

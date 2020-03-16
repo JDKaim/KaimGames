@@ -1,0 +1,140 @@
+﻿@using KaimGames.Minesweeper.Common;
+
+@model MinesweeperGameViewModel
+
+@{
+    ViewBag.Title = $"Minesweeper: {(Model.Game.Board.Rows > 10 ? "Hard" : (Model.Game.Board.Rows < 10) ? "Easy" : "Medium")}";
+}
+
+<h2>@ViewBag.Title.</h2>
+<p>@Html.ActionLink("Leaderboard", "Leaderboard", "Home", new { rows = Model.Game.Board.Rows, columns = Model.Game.Board.Columns, mines = Model.Game.Mines }, null)</p>
+<p><a asp-action="StartGame" asp-controller="Minesweeper" asp-route-rows="@Model.Game.Board.Rows" asp-route-columns="@Model.Game.Board.Columns" asp-route-mines="@Model.Game.Mines">Restart</a></p>
+
+<h3>
+    @if (Model.Game.IsWon)
+    {
+        <span>You won!</span>
+        <span>Score: @Model.Game.Score |</span>
+        <span>Moves: @Model.Game.Moves</span>
+    }
+    else if (Model.Game.IsLost)
+    {
+        <span class="text-danger">You lost!</span>
+        <span>Score: @Model.Game.Score |</span>
+        <span>Moves: @Model.Game.Moves</span>
+    }
+    else
+    {
+        <span>@Model.Game.FlagsLeft flags left.</span>
+        <span>Score: @Model.Game.Score |</span>
+        <span>Moves: @Model.Game.Moves</span>
+    }
+</h3>
+
+<h4 id="elapsed">&nbsp;</h4>
+
+@for (int row = 0; row < Model.Game.Board.Rows; row++)
+{
+    <div>
+        @for (int column = 0; column < Model.Game.Board.Columns; column++)
+        {
+            Cell cell = Model.Game.Board.GetAt(row, column);
+
+            switch (cell.State)
+            {
+                case CellState.Pristine:
+                    <div class="text-center cell cell-pristine">
+                        @if (!Model.Game.IsGameOver)
+                        {
+                            <a href="@Url.Action("Mark", new { row = row, column = column })"><i class="fa fa-bullseye"></i></a>
+                            <a href="@Url.Action("Flag", new { row = row, column = column })"><i class="fa fa-flag small"></i></a>
+                        }
+                        else if (cell.IsMine)
+                        {
+                            <i class="fa fa-certificate text-success"></i>
+                        }
+                        else
+                        {
+                            <span>&nbsp;</span>
+                        }
+                    </div>
+                    break;
+                case CellState.Flagged:
+                    if (!Model.Game.IsGameOver)
+                    {
+                        <div class="text-center cell cell-flagged">
+                            <a href="@Url.Action("Clear", new { row = row, column = column })" class="fill-div">
+                                <i class="fa fa-flag text-warning"></i>
+                            </a>
+                        </div>
+                    }
+                    else if (cell.IsMine)
+                    {
+                        <div class="text-center cell cell-flagged-correctly">
+                            <i class="fa fa-flag text-success"></i>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center cell cell-flagged-incorrectly">
+                            <i class="fa fa-flag text-danger"></i>
+                        </div>
+                    }
+                    break;
+                case CellState.Revealed:
+                    if (cell.IsMine)
+                    {
+                        <div class="text-center cell cell-mine">
+                            <i class="fa fa-certificate text-danger"></i>
+                        </div>
+                    }
+                    else if (cell.SurroundingMines > 0)
+                    {
+                        <div class="text-center cell cell-@cell.SurroundingMines">
+                            @if (!Model.Game.IsGameOver)
+                            {
+                                <a href="@Url.Action("RevealSurroundings", new { row = row, column = column })" class="fill-div">
+                                    @cell.SurroundingMines
+                                </a>
+                            }
+                            else
+                            {
+                                @cell.SurroundingMines
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center cell cell-0">
+                            <span>&nbsp;</span>
+                        </div>
+                    }
+                    break;
+            }
+        }
+    </div>
+}
+
+@section Scripts {
+    @if (!Model.Game.IsPristine)
+    {
+        <script type="text/javascript">
+        var elapsed = @Model.Elapsed;
+        function setElapsed(elapsedTime) {
+            $("#elapsed").text((Math.floor(elapsedTime)) / 1000);
+        }
+        setElapsed(elapsed);
+        </script>
+    }
+
+    @if (!Model.Game.IsGameOver)
+    {
+        <script type="text/javascript">
+            var interval = 20;
+            setInterval(function () {
+                elapsed += interval;
+                setElapsed(elapsed);
+            }, interval);
+        </script>
+    }
+}

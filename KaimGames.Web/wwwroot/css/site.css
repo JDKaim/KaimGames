@@ -134,3 +134,80 @@ body {
 }
 
 /* End CodeBreaker */
+
+/* Start Minesweeper */
+
+.cell {
+    height: 40px;
+    width: 40px;
+    padding-top: 8px;
+    margin-left: -4px;
+    /*margin-bottom: 4px; /* This is a hack to be consistent with the 4px between horizontal cells. */
+    display: inline-block;
+    border: 1px solid sandybrown;
+}
+
+.cell-pristine {
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.cell-flagged {
+    background-color: rgba(255, 255, 0, .1);
+}
+
+.cell-flagged-correctly {
+    background-color: rgba(0, 255, 0, .1);
+}
+
+.cell-flagged-incorrectly {
+    background-color: rgba(255, 0, 0, .1);
+}
+
+.cell-mine {
+    background-color: rgba(255, 0, 0, .1);
+}
+
+.cell-0 {
+    background-color: rgba(255, 255, 255, .7);
+}
+
+.cell-1 {
+    background-color: rgba(0, 255, 0, .1);
+}
+
+.cell-2 {
+    background-color: rgba(0, 0, 255, .1);
+}
+
+.cell-3 {
+    background-color: rgba(255, 0, 255, .1);
+}
+
+.cell-4 {
+    background-color: rgba(0, 255, 255, .1);
+}
+
+.cell-5 {
+    background-color: rgba(255, 255, 0, .1);
+}
+
+.cell-6 {
+    background-color: rgba(160, 160, 160, .1);
+}
+
+.cell-7 {
+    background-color: rgba(80, 80, 80, .1);
+}
+
+.cell-8 {
+    background-color: rgba(0, 0, 0, .1);
+}
+
+a.fill-div {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+
+/* End Minesweeper */

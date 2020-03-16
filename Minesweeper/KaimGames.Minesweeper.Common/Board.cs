@@ -4,9 +4,12 @@ namespace KaimGames.Minesweeper.Common
 {
     public class Board
     {
-        public readonly int Rows; 
-        public readonly int Columns;
-        private Cell[][] _cells;
+        public int Rows { get; set; }
+        public int Columns { get; set; }
+
+        public Cell[][] Cells { get; set; }
+
+        public Board() { }
 
         public Board(int rows, int columns)
         {
@@ -16,15 +19,15 @@ namespace KaimGames.Minesweeper.Common
             this.Rows = rows;
             this.Columns = columns;
 
-            this._cells = new Cell[this.Rows][];
+            this.Cells = new Cell[this.Rows][];
 
             for (int row = 0; row < rows; row++)
             {
-                this._cells[row] = new Cell[this.Columns];
+                this.Cells[row] = new Cell[this.Columns];
 
                 for (int column = 0; column < columns; column++)
                 {
-                    this._cells[row][column] = new Cell();
+                    this.Cells[row][column] = new Cell();
                 }
             }
         }
@@ -45,7 +48,7 @@ namespace KaimGames.Minesweeper.Common
         public Cell GetAt(int row, int column)
         {
             this.VerifyIsOnBoard(row, column);
-            return this._cells[row][column];
+            return this.Cells[row][column];
         }
         
     }

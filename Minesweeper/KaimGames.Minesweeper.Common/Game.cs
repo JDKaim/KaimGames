@@ -6,11 +6,10 @@ namespace KaimGames.Minesweeper.Common
 {
     public class Game
     {
-        public readonly Board Board;
-        public readonly int Mines;
+        public Board Board { get; set; }
+        public int Mines { get; set; }
 
-
-        public bool isPristine
+        public bool IsPristine
         {
             get
             {
@@ -105,6 +104,10 @@ namespace KaimGames.Minesweeper.Common
                 }
                 return false;
             }
+        }
+
+        public Game()
+        {
         }
 
         public Game(int rows, int columns, int mines)
