@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using KaimGames.Web.Models;
 using KaimGames.CodeBreaker.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KaimGames.Web.Controllers
 {
+    [Authorize]
     public class CodeBreakerController : Controller
     {
         const string SessionPrefix = "CodeBreaker";

@@ -9,6 +9,8 @@ namespace KaimGames.Web.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
     {
+        public virtual DbSet<CompletedGame> CompletedGames { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

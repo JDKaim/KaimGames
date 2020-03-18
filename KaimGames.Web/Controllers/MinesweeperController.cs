@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using KaimGames.Web.Models;
 using KaimGames.Minesweeper.Common;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using KaimGames.Web.Data;
 
 namespace KaimGames.Web.Controllers
 {
+    [Authorize]
     public class MinesweeperController : Controller
     {
         const string SessionPrefix = "Minesweeper";
@@ -20,11 +24,21 @@ namespace KaimGames.Web.Controllers
 
         private readonly ILogger<HomeController> _logger;
 
-        public MinesweeperController(ILogger<HomeController> logger)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        private readonly ApplicationDbContext _db;
+        async public Task<ApplicationUser> GetLoggedInUser()
         {
-            _logger = logger;
+
+            return await this._userManager.GetUserAsync(HttpContext.User);
         }
 
+        public MinesweeperController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext db)
+        {
+            _logger = logger;
+            this._userManager = userManager;
+            this._db = db;
+        }
 
         public ActionResult Show()
         {
@@ -80,7 +94,7 @@ namespace KaimGames.Web.Controllers
             return this.RedirectToAction("Show");
         }
 
-        public ActionResult Mark(int row, int column)
+        async public Task<ActionResult> Mark(int row, int column)
         {
             Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
             if (game.IsGameOver)
@@ -100,18 +114,21 @@ namespace KaimGames.Web.Controllers
             if (game.IsWon)
             {
                 this.HttpContext.Session.Set(this.SessionGameElapsedKey, (DateTime.UtcNow - this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
-                //this.LoggedInUser.CompletedGames.Add(
-                //    new CompletedGame()
-                //    {
-                //        Columns = game.Board.Columns,
-                //        Rows = game.Board.Rows,
-                //        Mines = game.Mines,
-                //        Moves = game.Moves,
-                //        Created = (DateTime)this.Session["GameStarted"],
-                //        Elapsed = (double)this.Session["Elapsed"]
-                //    });
-                //this.UserManager.Update(this.LoggedInUser);
+                ApplicationUser user = await this.GetLoggedInUser();
 
+                this._db.CompletedGames.Add(
+                    new CompletedGame()
+                    {
+                        User = user,
+                        GameName = "Minesweeper",
+                        SubGame = game.SubGame,
+                        Moves = game.Moves,
+                        Score = game.Score,
+                        Created = this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey),
+                        Completed = DateTime.UtcNow,
+                        Elapsed = this.HttpContext.Session.Get<double>(this.SessionGameElapsedKey)
+                    });
+                await this._db.SaveChangesAsync();
             }
             if (game.IsLost)
             {
@@ -121,7 +138,7 @@ namespace KaimGames.Web.Controllers
             return this.RedirectToAction("Show");
         }
 
-        public ActionResult RevealSurroundings(int row, int column)
+        async public Task<ActionResult> RevealSurroundings(int row, int column)
         {
             Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
             if (game.IsGameOver)
@@ -133,20 +150,25 @@ namespace KaimGames.Web.Controllers
             this.HttpContext.Session.Set(this.SessionGameElapsedKey, (DateTime.UtcNow - this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
             this.HttpContext.Session.Set(this.SessionGameKey, game);
 
-            //if (game.IsWon)
-            //{
-            //    this.LoggedInUser.CompletedGames.Add(
-            //        new CompletedGame()
-            //        {
-            //            Columns = game.Board.Columns,
-            //            Rows = game.Board.Rows,
-            //            Mines = game.Mines,
-            //            Moves = game.Moves,
-            //            Created = (DateTime)this.Session["GameStarted"],
-            //            Elapsed = (double)this.Session["Elapsed"]
-            //        });
-            //    this.UserManager.Update(this.LoggedInUser);
-            //}
+            if (game.IsWon)
+            {
+                this.HttpContext.Session.Set(this.SessionGameElapsedKey, (DateTime.UtcNow - this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
+                ApplicationUser user = await this.GetLoggedInUser();
+
+                this._db.CompletedGames.Add(
+                    new CompletedGame()
+                    {
+                        User = user,
+                        GameName = "Minesweeper",
+                        SubGame = game.SubGame,
+                        Moves = game.Moves,
+                        Score = game.Score,
+                        Created = this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey),
+                        Completed = DateTime.UtcNow,
+                        Elapsed = this.HttpContext.Session.Get<double>(this.SessionGameElapsedKey)
+                    });
+                await this._db.SaveChangesAsync();
+            }
 
             return this.RedirectToAction("Show");
         }

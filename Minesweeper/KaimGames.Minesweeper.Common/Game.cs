@@ -8,6 +8,13 @@ namespace KaimGames.Minesweeper.Common
     {
         public Board Board { get; set; }
         public int Mines { get; set; }
+        public string SubGame
+        {
+            get
+            {
+                return Board.Rows + "-" + Board.Columns + "-" + Mines;
+            }
+        }
 
         public bool IsPristine
         {
@@ -41,6 +48,7 @@ namespace KaimGames.Minesweeper.Common
             }
         }
 
+        public int FlagAttempts { get; set; }
         public int Score
         {
             get
@@ -54,6 +62,7 @@ namespace KaimGames.Minesweeper.Common
                         if (cell.State == CellState.Revealed && !cell.IsMine) { score += 1; }
                     }
                 }
+                score -= FlagAttempts;
                 return score;
             }
         }
@@ -294,13 +303,13 @@ namespace KaimGames.Minesweeper.Common
         {
             if (!this.Board.IsOnBoard(row, column)) { return; }
             Cell cell = Board.GetAt(row, column);
-            if (cell.State == CellState.Pristine) { cell.State = CellState.Flagged; Moves += 1; }
+            if (cell.State == CellState.Pristine) { cell.State = CellState.Flagged; Moves += 1; FlagAttempts += 1; }
         }
 
         public void ClearFlag(int row, int column)
         {
             Cell cell = Board.GetAt(row, column);
-            if (cell.State == CellState.Flagged) { cell.State = CellState.Pristine; Moves += 1; }
+            if (cell.State == CellState.Flagged) { cell.State = CellState.Pristine; Moves += 1; FlagAttempts += 1; }
         }
 
     }
