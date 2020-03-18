@@ -36,12 +36,17 @@
     </div>
 }
 
+@Html.ActionLink("New Easy Game", "NewEasy", "Minesweeper") |
+@Html.ActionLink("New Medium Game", "NewMedium", "Minesweeper") |
+@Html.ActionLink("New Hard Game", "NewHard", "Minesweeper") |
+@Html.ActionLink("New Expert Game", "NewExpert", "Minesweeper")
+
 @section Scripts {
     <script type="text/javascript">
         function formValidation() {
             var mines = $("#mines").val();
             var rows = $("#rows").val();
-             var columns = $("#columns").val();
+            var columns = $("#columns").val();
             if (mines >= rows * columns) {
                 alert("That's too many mines!");
                 return false;
