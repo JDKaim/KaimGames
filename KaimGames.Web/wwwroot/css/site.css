@@ -219,3 +219,13 @@ a.fill-div {
 }
 
 /* End Minesweeper */
+
+
+/* Start Tic Tac Toe */
+
+.tictactoe-cell {
+    height: 100px;
+    font-size: xx-large;
+}
+
+/* End Tic Tac Toe */
