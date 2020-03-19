@@ -45,7 +45,7 @@ namespace KaimGames.Web.Controllers
             Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
             if (game == null) { return this.RedirectToAction("Index"); }
 
-            return this.View(new TicTacToeGameViewModel(game));
+            return this.View(new TicTacToeGameViewModel(game, this.HttpContext.Session.Get<string>(this.SessionBotKey)));
         }
 
         public IActionResult Mark(int row, int column)

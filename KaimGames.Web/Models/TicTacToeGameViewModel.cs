@@ -9,10 +9,11 @@ namespace KaimGames.Web.Models
     public class TicTacToeGameViewModel
     {
         public readonly Game Game;
-
-        public TicTacToeGameViewModel(Game game)
+        public readonly string BotName;
+        public TicTacToeGameViewModel(Game game, string botName)
         {
             this.Game = game;
+            this.BotName = botName;
         }
     }
 }
