@@ -4,5 +4,47 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome to Kaim Games</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Check out our source code on <a href="https://github.com/JDKaim/KaimGames">GitHub</a>.</p>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+           
+
+            <h2>Minesweeper</h2>
+            <ul>
+                <li><a asp-controller="Minesweeper" asp-action="Create" asp-route-rows="8" asp-route-columns="8" asp-route-mines="6">Play Easy</a></li>
+                <li><a asp-controller="Minesweeper" asp-action="Create" asp-route-rows="10" asp-route-columns="10" asp-route-mines="10">Play Medium</a></li>
+            </ul>
+        </div>
+
+        <div class="col">
+            <h2>CodeBreaker</h2>
+            <ul>
+                <li><a asp-controller="CodeBreaker" asp-action="Create" asp-route-codeLength="3" asp-route-codeOptionsLength="3">Play Easy</a></li>
+                <li><a asp-controller="CodeBreaker" asp-action="Create" asp-route-codeLength="5" asp-route-codeOptionsLength="5">Play Medium</a></li>
+            </ul>
+        </div>
+
+        <div class="col">
+            <div class="card border-dark" style="width: 18rem;">
+                <img src="~/img/TicTacToe.png" class="card-img-top rounded rounded-lg">
+                <div class="card-body">
+                    <h2 class="card-title">Tic Tac Toe</h2>
+                    <p class="card-text">Take on our new and exciting AI bots, including the undefeated MinMaxBot.</p>
+                    <a class="btn btn-primary stretched-link" asp-controller="TicTacToe">Play now!</a>
+                </div>
+            </div>
+
+            @*<h2>TicTacToe</h2>
+            <ul>
+                <li><a asp-controller="TicTacToe" asp-action="Create" asp-route-bot="RandomBot">Play RandomBot</a></li>
+                <li><a asp-controller="TicTacToe" asp-action="Create" asp-route-bot="MinMaxBot">Play MinMaxBot</a></li>
+            </ul>*@
+        </div>
+
+
+    </div>
 </div>

@@ -45,21 +45,21 @@ namespace KaimGames.Web.Controllers
 
         public ActionResult NewEasy()
         {
-            return StartGame(8, 8, 6);
+            return Create(8, 8, 6);
         }
 
         public ActionResult NewMedium()
         {
-            return StartGame(10, 10, 10);
+            return Create(10, 10, 10);
         }
 
         public ActionResult NewHard()
         {
-            return StartGame(15, 15, 30);
+            return Create(15, 15, 30);
         }
         public ActionResult NewExpert()
         {
-            return StartGame(20, 20, 70);
+            return Create(20, 20, 70);
         }
 
         public ActionResult Index()
@@ -67,7 +67,7 @@ namespace KaimGames.Web.Controllers
             return this.View();
         }
 
-        public ActionResult StartGame(int rows, int columns, int mines)
+        public ActionResult Create(int rows, int columns, int mines)
         {
             this.SessionSet(this.SessionGameKey, new Game(rows, columns, mines));
             return this.RedirectToAction("Show");

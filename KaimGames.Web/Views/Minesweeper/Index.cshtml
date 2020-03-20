@@ -5,7 +5,7 @@
 
 <h2>Custom</h2>
 
-@using (Html.BeginForm("StartGame", "Minesweeper", FormMethod.Get, new { @class = "form-horizontal", role = "form", onSubmit = "return formValidation();" }))
+@using (Html.BeginForm("Create", "Minesweeper", FormMethod.Get, new { @class = "form-horizontal", role = "form", onSubmit = "return formValidation();" }))
 {
     @Html.AntiForgeryToken()
     <h4>Create a new game.</h4>

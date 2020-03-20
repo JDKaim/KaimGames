@@ -8,7 +8,7 @@
 
 <h2>@ViewBag.Title.</h2>
 <p>@Html.ActionLink("Leaderboard", "Index", "Leaderboard", new { gameName = Model.Game.Name, subGame = Model.Game.SubGame }, null)</p>
-<p><a asp-action="StartGame" asp-controller="Minesweeper" asp-route-rows="@Model.Game.Board.Rows" asp-route-columns="@Model.Game.Board.Columns" asp-route-mines="@Model.Game.Mines">Restart</a></p>
+<p><a asp-action="Create" asp-controller="Minesweeper" asp-route-rows="@Model.Game.Board.Rows" asp-route-columns="@Model.Game.Board.Columns" asp-route-mines="@Model.Game.Mines">Restart</a></p>
 
 <h3>
     @if (Model.Game.IsWon)

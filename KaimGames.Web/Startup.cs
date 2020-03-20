@@ -45,7 +45,7 @@ namespace KaimGames.Web
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
             // This is currently enabled since it seems to be working now. If there are issues, then consider commenting

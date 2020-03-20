@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>
