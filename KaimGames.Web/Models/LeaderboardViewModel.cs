@@ -9,9 +9,13 @@ namespace KaimGames.Web.Models
     public class LeaderboardViewModel
     {
         public readonly List<CompletedGame> CompletedGames;
-        public LeaderboardViewModel(List<CompletedGame> completedGames)
+        public readonly string GameName;
+        public readonly string SubGame;
+        public LeaderboardViewModel(string gameName, string subGame, List<CompletedGame> completedGames)
         {
             this.CompletedGames = completedGames;
+            this.GameName = gameName;
+            this.SubGame = subGame;
         }
     }
 }

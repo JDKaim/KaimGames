@@ -6,6 +6,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
+<p>@Html.ActionLink("Leaderboard", "Index", "Leaderboard", new { gameName = Model.Game.Name, subGame = Model.Game.SubGame }, null)</p>
 <p><a asp-action="Create" asp-controller="CodeBreaker" asp-route-codeLength="@Model.Game.CodeLength" asp-route-codeOptionsLength="@Model.Game.CodeOptions.Length">Restart</a></p>
 
 <h3>

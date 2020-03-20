@@ -6,12 +6,12 @@
 @model LeaderboardViewModel
 
 <h2>@ViewBag.Title.</h2>
-@*<h3>@($"{Model.Rows} rows, {Model.Columns} columns, {Model.Mines} mines")</h3>
+<h3>@($"{Model.GameName} ({Model.SubGame})")</h3>
 <div>
-    @Html.ActionLink("All Time", "Leaderboard", new { rows = Model.Rows, columns = Model.Columns, mines = Model.Mines }) |
-    @Html.ActionLink("1 Week", "Leaderboard", new { rows = Model.Rows, columns = Model.Columns, mines = Model.Mines, hours = 168 }) |
-    @Html.ActionLink("1 Day", "Leaderboard", new { rows = Model.Rows, columns = Model.Columns, mines = Model.Mines, hours = 24 }) |
-    @Html.ActionLink("1 Hour", "Leaderboard", new { rows = Model.Rows, columns = Model.Columns, mines = Model.Mines, hours = 1 })
+    @Html.ActionLink("All Time", "Index", new { gameName = Model.GameName, subGame = Model.SubGame }) |
+    @Html.ActionLink("1 Week", "Index", new { gameName = Model.GameName, subGame = Model.SubGame, hours = 168 }) |
+    @Html.ActionLink("1 Day", "Index", new { gameName = Model.GameName, subGame = Model.SubGame, hours = 24 }) |
+    @Html.ActionLink("1 Hour", "Index", new { gameName = Model.GameName, subGame = Model.SubGame, hours = 1 })
 </div>
 
 
@@ -21,6 +21,7 @@
             <th>User</th>
             <th>Elapsed</th>
             <th>Moves</th>
+            <th>Score</th>
             <th>Played</th>
         </tr>
     </thead>
@@ -28,9 +29,10 @@
         @foreach (var game in Model.CompletedGames)
         {
             <tr>
-                <td>@game.User.UserName</td>
+                <td>@game.User.DisplayName</td>
                 <td>@((game.Elapsed / 1000).ToString("0.00"))</td>
                 <td>@game.Moves</td>
+                <td>@game.Score</td>
                 <td>
                     @{
                         TimeSpan timeSpan = DateTime.UtcNow - game.Created;
@@ -57,4 +59,4 @@
             </tr>
         }
     </tbody>
-</table>*@
+</table>
