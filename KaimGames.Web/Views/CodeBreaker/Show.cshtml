@@ -6,9 +6,10 @@
 }
 
 <h2>@ViewBag.Title</h2>
+<p><a asp-action="Create" asp-controller="CodeBreaker" asp-route-codeLength="@Model.Game.CodeLength" asp-route-codeOptionsLength="@Model.Game.CodeOptions.Length">Restart</a></p>
 
 <h3>
-    @if (Model.Game.IsOver)
+    @if (Model.Game.IsGameOver)
     {
         <span>You won in @Model.Game.Guesses.Count guesses!</span>
     }
@@ -18,12 +19,12 @@
     }
 </h3>
 
-<p><a asp-action="Create" asp-controller="CodeBreaker" asp-route-codeLength="@Model.Game.CodeLength" asp-route-codeOptionsLength="@Model.Game.CodeOptions.Length">Restart</a></p>
+<h4 id="elapsed">&nbsp;</h4>
 
 <form asp-controller="CodeBreaker" asp-action="Guess" method="GET">
     <table class="table table-responsive">
         <tbody>
-            @if (!Model.Game.IsOver)
+            @if (!Model.Game.IsGameOver)
             {
                 <tr>
                     <td></td>
@@ -74,9 +75,25 @@
 </form>
 
 @section Scripts {
-    <script type="text/javascript">
-        function formValidation() {
-            return true;
+    @if (Model.Game.Guesses.Any())
+    {
+        <script type="text/javascript">
+        var elapsed = @Model.Elapsed;
+        function setElapsed(elapsedTime) {
+            $("#elapsed").text((Math.floor(elapsedTime)) / 1000);
         }
-    </script>
+        setElapsed(elapsed);
+        </script>
+    }
+
+    @if (!Model.Game.IsGameOver)
+    {
+        <script type="text/javascript">
+            var interval = 20;
+            setInterval(function () {
+                elapsed += interval;
+                setElapsed(elapsed);
+            }, interval);
+        </script>
+    }
 }

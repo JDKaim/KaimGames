@@ -18,7 +18,10 @@ namespace KaimGames.CodeBreaker.Common
         public readonly char[] Code;
         public readonly List<Guess> Guesses;
 
-        public bool IsOver => this.Guesses.Any() && this.Guesses.Last().IsWon;
+        public bool IsGameOver => this.Guesses.Any() && this.Guesses.Last().IsWon;
+
+        public string Name => "CodeBreaker";
+        public string SubGame => $"{this.CodeLength}-{this.CodeOptions.Length}";
 
         static public char[] GenerateCodeOptions(int codeOptionsLength)
         {
@@ -64,7 +67,7 @@ namespace KaimGames.CodeBreaker.Common
 
         public void Guess(char[] code)
         {
-            if (this.IsOver) { return; }
+            if (this.IsGameOver) { return; }
             if (code.Length != this.CodeLength) { throw new ArgumentException("The guess was not the correct length"); }
             if (code.Any(item => !this.CodeOptions.Contains(item))) { throw new ArgumentException("The guess contained characters not in the options"); }
 

@@ -8,22 +8,19 @@ using Microsoft.Extensions.Logging;
 using KaimGames.Web.Models;
 using KaimGames.TicTacToe.Common;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using KaimGames.Web.Data;
 
 namespace KaimGames.Web.Controllers
 {
     [Authorize]
-    public class TicTacToeController : Controller
+    public class TicTacToeController : GameControllerBase
     {
-        const string SessionPrefix = "TicTacToe";
+        private string SessionBotKey => $"{this.GamePrefix}.Bot";
 
-        private string SessionGameKey => $"{SessionPrefix}.Game";
-        private string SessionBotKey => $"{SessionPrefix}.Bot";
-
-        private readonly ILogger<HomeController> _logger;
-
-        public TicTacToeController(ILogger<HomeController> logger)
+        public TicTacToeController(ILogger<GameControllerBase> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext db) :
+            base("TicTacToe", logger, userManager, db)
         {
-            _logger = logger;
         }
 
         public IActionResult Index()
@@ -34,29 +31,29 @@ namespace KaimGames.Web.Controllers
         public IActionResult Create(string bot)
         {
             Game game = new Game();
-            this.HttpContext.Session.Set(this.SessionGameKey, game);
-            this.HttpContext.Session.Set(this.SessionBotKey, bot);
+            this.SessionSet(this.SessionGameKey, game);
+            this.SessionSet(this.SessionBotKey, bot);
 
             return this.RedirectToAction("Show");
         }
 
         public IActionResult Show()
         {
-            Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
+            Game game = this.SessionGet<Game>(this.SessionGameKey);
             if (game == null) { return this.RedirectToAction("Index"); }
 
-            return this.View(new TicTacToeGameViewModel(game, this.HttpContext.Session.Get<string>(this.SessionBotKey)));
+            return this.View(new TicTacToeGameViewModel(game, this.SessionGet<string>(this.SessionBotKey)));
         }
 
         public IActionResult Mark(int row, int column)
         {
-            Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
+            Game game = this.SessionGet<Game>(this.SessionGameKey);
             game.Mark(row, column);
 
             if (!game.IsOver)
             {
                 IBot bot;
-                switch (this.HttpContext.Session.Get<string>(this.SessionBotKey))
+                switch (this.SessionGet<string>(this.SessionBotKey))
                 {
                     case "RandomBot": bot = new RandomBot(); break;
                     case "MinMaxBot": bot = new MinMaxBot(); break;
@@ -67,7 +64,7 @@ namespace KaimGames.Web.Controllers
                 game.Mark(move.Item1, move.Item2);
             }
 
-            this.HttpContext.Session.Set(this.SessionGameKey, game);
+            this.SessionSet(this.SessionGameKey, game);
 
             return this.RedirectToAction("Show");
         }

@@ -4,8 +4,8 @@
 
 <div class="text-center">
     <h1 class="display-4">Play</h1>
-    <p><a class="navbar-brand" asp-area="" asp-controller="CodeBreaker" asp-action="CreateEasy">Easy (3x3)</a></p>
-    <p><a class="navbar-brand" asp-area="" asp-controller="CodeBreaker" asp-action="CreateMedium">Medium (5x5)</a></p>
-    <p><a class="navbar-brand" asp-area="" asp-controller="CodeBreaker" asp-action="CreateHard">Hard (7x7)</a></p>
-    <p><a class="navbar-brand" asp-area="" asp-controller="CodeBreaker" asp-action="CreateExpert">Expert (10x10)</a></p>
+    <p><a class="navbar-brand" asp-controller="CodeBreaker" asp-action="Create" asp-route-codeLength="3" asp-route-codeOptionsLength="3">Easy (3x3)</a></p>
+    <p><a class="navbar-brand" asp-controller="CodeBreaker" asp-action="Create" asp-route-codeLength="5" asp-route-codeOptionsLength="5">Medium (5x5)</a></p>
+    <p><a class="navbar-brand" asp-controller="CodeBreaker" asp-action="Create" asp-route-codeLength="7" asp-route-codeOptionsLength="7">Hard (7x7)</a></p>
+    <p><a class="navbar-brand" asp-controller="CodeBreaker" asp-action="Create" asp-route-codeLength="10" asp-route-codeOptionsLength="10">Expert (10x10)</a></p>
 </div>

@@ -14,54 +14,33 @@ using KaimGames.Web.Data;
 namespace KaimGames.Web.Controllers
 {
     [Authorize]
-    public class MinesweeperController : Controller
+    public class MinesweeperController : GameControllerBase
     {
-        const string SessionPrefix = "Minesweeper";
-
-        private string SessionGameKey => $"{SessionPrefix}.Game";
-        private string SessionGameStartedKey => $"{SessionPrefix}.GameStarted";
-        private string SessionGameElapsedKey => $"{SessionPrefix}.GameElapsed";
-
-        private readonly ILogger<HomeController> _logger;
-
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        private readonly ApplicationDbContext _db;
-        async public Task<ApplicationUser> GetLoggedInUser()
+        public MinesweeperController(ILogger<GameControllerBase> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext db) :
+            base("Minesweeper", logger, userManager, db)
         {
-
-            return await this._userManager.GetUserAsync(HttpContext.User);
-        }
-
-        public MinesweeperController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext db)
-        {
-            _logger = logger;
-            this._userManager = userManager;
-            this._db = db;
         }
 
         public ActionResult Show()
         {
-            Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
+            Game game = this.SessionGet<Game>(this.SessionGameKey);
             if (game == null)
             {
-                return this.RedirectToAction("NewMedium");
+                return this.RedirectToAction("Index");
             }
             if (game.IsPristine)
             {
                 return View(new MinesweeperGameViewModel(game, 0.0));
             }
-            DateTime created = this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey);
+            DateTime created = this.SessionGet<DateTime>(this.SessionGameStartedKey);
             if (!game.IsGameOver)
             {
-                return View(new MinesweeperGameViewModel(game, (DateTime.UtcNow - this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds));
+                return View(new MinesweeperGameViewModel(game, (DateTime.UtcNow - this.SessionGet<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds));
             }
             else
             {
-                return View(new MinesweeperGameViewModel(game, this.HttpContext.Session.Get<double>(this.SessionGameElapsedKey)));
+                return View(new MinesweeperGameViewModel(game, this.SessionGet<double>(this.SessionGameElapsedKey)));
             }
-
-
         }
 
         public ActionResult NewEasy()
@@ -90,13 +69,13 @@ namespace KaimGames.Web.Controllers
 
         public ActionResult StartGame(int rows, int columns, int mines)
         {
-            this.HttpContext.Session.Set(this.SessionGameKey, new Game(rows, columns, mines));
+            this.SessionSet(this.SessionGameKey, new Game(rows, columns, mines));
             return this.RedirectToAction("Show");
         }
 
         async public Task<ActionResult> Mark(int row, int column)
         {
-            Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
+            Game game = this.SessionGet<Game>(this.SessionGameKey);
             if (game.IsGameOver)
             {
                 return this.RedirectToAction("Show");
@@ -104,83 +83,69 @@ namespace KaimGames.Web.Controllers
 
             if (game.IsPristine)
             {
-                this.HttpContext.Session.Set(this.SessionGameStartedKey, DateTime.UtcNow);
+                this.SessionSet(this.SessionGameStartedKey, DateTime.UtcNow);
             }
 
             game.Mark(row, column, true);
-            this.HttpContext.Session.Set(this.SessionGameKey, game);
+            this.SessionSet(this.SessionGameKey, game);
 
-
-            if (game.IsWon)
-            {
-                this.HttpContext.Session.Set(this.SessionGameElapsedKey, (DateTime.UtcNow - this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
-                ApplicationUser user = await this.GetLoggedInUser();
-
-                this._db.CompletedGames.Add(
-                    new CompletedGame()
-                    {
-                        User = user,
-                        GameName = "Minesweeper",
-                        SubGame = game.SubGame,
-                        Moves = game.Moves,
-                        Score = game.Score,
-                        Created = this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey),
-                        Completed = DateTime.UtcNow,
-                        Elapsed = this.HttpContext.Session.Get<double>(this.SessionGameElapsedKey)
-                    });
-                await this._db.SaveChangesAsync();
-            }
-            if (game.IsLost)
-            {
-                this.HttpContext.Session.Set(this.SessionGameElapsedKey, (DateTime.UtcNow - this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
-            }
+            await this.ProcessIfEndOfGame(game);
 
             return this.RedirectToAction("Show");
         }
 
         async public Task<ActionResult> RevealSurroundings(int row, int column)
         {
-            Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
+            Game game = this.SessionGet<Game>(this.SessionGameKey);
             if (game.IsGameOver)
             {
                 return this.RedirectToAction("Show");
             }
 
             game.RevealSurroundings(row, column);
-            this.HttpContext.Session.Set(this.SessionGameElapsedKey, (DateTime.UtcNow - this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
-            this.HttpContext.Session.Set(this.SessionGameKey, game);
+            this.SessionSet(this.SessionGameElapsedKey, (DateTime.UtcNow - this.SessionGet<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
+            this.SessionSet(this.SessionGameKey, game);
 
-            if (game.IsWon)
-            {
-                this.HttpContext.Session.Set(this.SessionGameElapsedKey, (DateTime.UtcNow - this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
-                ApplicationUser user = await this.GetLoggedInUser();
-
-                this._db.CompletedGames.Add(
-                    new CompletedGame()
-                    {
-                        User = user,
-                        GameName = "Minesweeper",
-                        SubGame = game.SubGame,
-                        Moves = game.Moves,
-                        Score = game.Score,
-                        Created = this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey),
-                        Completed = DateTime.UtcNow,
-                        Elapsed = this.HttpContext.Session.Get<double>(this.SessionGameElapsedKey)
-                    });
-                await this._db.SaveChangesAsync();
-            }
+            await this.ProcessIfEndOfGame(game);
 
             return this.RedirectToAction("Show");
         }
 
+        async public Task ProcessIfEndOfGame(Game game)
+        {
+            if (game.IsWon)
+            {
+                this.SessionSet(this.SessionGameElapsedKey, (DateTime.UtcNow - this.SessionGet<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
+                ApplicationUser user = await this.GetLoggedInUser();
+
+                this.Db.CompletedGames.Add(
+                    new CompletedGame()
+                    {
+                        User = user,
+                        GameName = game.Name,
+                        SubGame = game.SubGame,
+                        Moves = game.Moves,
+                        Score = game.Score,
+                        Created = this.SessionGet<DateTime>(this.SessionGameStartedKey),
+                        Completed = DateTime.UtcNow,
+                        Elapsed = this.SessionGet<double>(this.SessionGameElapsedKey)
+                    });
+                await this.Db.SaveChangesAsync();
+            }
+            else if (game.IsLost)
+            {
+                this.SessionSet(this.SessionGameElapsedKey, (DateTime.UtcNow - this.SessionGet<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
+            }
+        }
+
         public ActionResult Flag(int row, int column)
         {
-            Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
+            Game game = this.SessionGet<Game>(this.SessionGameKey);
             if (!game.IsGameOver)
             {
                 game.SetFlag(row, column);
-                this.HttpContext.Session.Set(this.SessionGameKey, game);
-                this.HttpContext.Session.Set(this.SessionGameElapsedKey, (DateTime.UtcNow - this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
+                this.SessionSet(this.SessionGameKey, game);
+                this.SessionSet(this.SessionGameElapsedKey, (DateTime.UtcNow - this.SessionGet<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
             }
 
             return this.RedirectToAction("Show");
@@ -188,12 +153,12 @@ namespace KaimGames.Web.Controllers
 
         public ActionResult Clear(int row, int column)
         {
-            Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
+            Game game = this.SessionGet<Game>(this.SessionGameKey);
             if (!game.IsGameOver)
             {
                 game.ClearFlag(row, column);
-                this.HttpContext.Session.Set(this.SessionGameKey, game);
-                this.HttpContext.Session.Set(this.SessionGameElapsedKey, (DateTime.UtcNow - this.HttpContext.Session.Get<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
+                this.SessionSet(this.SessionGameKey, game);
+                this.SessionSet(this.SessionGameElapsedKey, (DateTime.UtcNow - this.SessionGet<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
             }
 
             return this.RedirectToAction("Show");
