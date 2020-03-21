@@ -10,9 +10,6 @@
 <div class="container">
     <div class="row">
         <div class="col">
-
-           
-
             <h2>Minesweeper</h2>
             <ul>
                 <li><a asp-controller="Minesweeper" asp-action="Create" asp-route-rows="8" asp-route-columns="8" asp-route-mines="6">Play Easy</a></li>
@@ -39,12 +36,21 @@
             </div>
 
             @*<h2>TicTacToe</h2>
-            <ul>
-                <li><a asp-controller="TicTacToe" asp-action="Create" asp-route-bot="RandomBot">Play RandomBot</a></li>
-                <li><a asp-controller="TicTacToe" asp-action="Create" asp-route-bot="MinMaxBot">Play MinMaxBot</a></li>
-            </ul>*@
+                <ul>
+                    <li><a asp-controller="TicTacToe" asp-action="Create" asp-route-bot="RandomBot">Play RandomBot</a></li>
+                    <li><a asp-controller="TicTacToe" asp-action="Create" asp-route-bot="MinMaxBot">Play MinMaxBot</a></li>
+                </ul>*@
         </div>
+    </div>
 
-
+    <div class="row">
+        <div class="col">
+            <h2>Recent Games</h2>
+            @* Unfortunately, we can't use tag helpers for view components because optional parameters are not supported. *@
+            @await Component.InvokeAsync("CompletedGames", new { page = 0, pageSize = 10, orderBy = "Completed", orderByDescending = true, hideMoves = true, hideScore = true })
+        </div>
     </div>
 </div>
+
+<vc:completed-games>
+</vc:completed-games>

@@ -67,6 +67,12 @@ namespace KaimGames.Web.Controllers
             return this.View();
         }
 
+        public IActionResult CreateSubGame(string subGame)
+        {
+            int[] parts = subGame.Split('-').Select(item => int.Parse(item)).ToArray();
+            return this.Create(parts[0], parts[1], parts[2]);
+        }
+
         public ActionResult Create(int rows, int columns, int mines)
         {
             this.SessionSet(this.SessionGameKey, new Game(rows, columns, mines));

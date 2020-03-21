@@ -1,0 +1,89 @@
+﻿@using KaimGames.Web.Models
+
+@model CompletedGamesViewModel
+
+<table class="table">
+    <thead>
+        <tr>
+            @if (!Model.HideDisplayName)
+            {
+                <th>User</th>
+            }
+            @if (!Model.HideGameName)
+            {
+                <th>Game</th>
+            }
+            @if (!Model.HideSubType)
+            {
+                <th>Type</th>
+            }
+            @if (!Model.HideElapsed)
+            {
+                <th>Elapsed</th>
+            }
+            @if (!Model.HideMoves)
+            {
+                <th>Moves</th>
+            }
+            @if (!Model.HideScore)
+            {
+                <th>Score</th>
+            }
+            <th>Played</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model.CompletedGames)
+        {
+        <tr>
+            @if (!Model.HideDisplayName)
+            {
+                <td><a asp-controller="Home" asp-action="User" asp-route-userId="@game.User.Id">@game.User.DisplayName</a></td>
+            }
+            @if (!Model.HideGameName)
+            {
+                <td><a asp-controller="@game.GameName">@game.GameName</a></td>
+            }
+            @if (!Model.HideSubType)
+            {
+                <td><a asp-controller="@game.GameName" asp-action="CreateSubGame" asp-route-subGame="@game.SubGame">@game.SubGame</a></td>
+            }
+            @if (!Model.HideElapsed)
+            {
+                <td>@((game.Elapsed / 1000).ToString("0.00"))</td>
+            }
+            @if (!Model.HideMoves)
+            {
+                <td>@game.Moves</td>
+            }
+            @if (!Model.HideScore)
+            {
+                <td>@game.Score</td>
+            }
+            <td>
+                @{
+                    TimeSpan timeSpan = DateTime.UtcNow - game.Created;
+                    if (timeSpan.TotalDays > 7)
+                    {
+                        <span>@game.Created.ToShortDateString()</span>
+                    }
+                    else if (timeSpan.TotalDays > 1)
+                    {
+                        <span>@(Math.Round(timeSpan.TotalDays)) days ago</span>
+                    }
+                    else if (timeSpan.TotalHours > 1)
+                    {
+                        <span>@(Math.Round(timeSpan.TotalHours)) hours ago</span>
+                    }
+                    else if (timeSpan.TotalMinutes > 1)
+                    {
+                        <span>@(Math.Round(timeSpan.TotalMinutes)) minutes ago</span>
+                    }
+                    else
+                    { <span>Just now</span>}
+                }
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
