@@ -10,19 +10,38 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2>Minesweeper</h2>
+            
+            <div class="card border-dark" style="width: 18rem;">
+                <img src="~/img/Minesweeper.png" class="card-img-top rounded rounded-lg">
+                <div class="card-body">
+                    <h2 class="card-title">Minesweeper</h2>
+                    <p class="card-text">Try to flag the mines and uncover the safe spots, but don't uncover the mines.</p>
+                    <a class="btn btn-primary stretched-link" asp-controller="Minesweeper">Play now!</a>
+                </div>
+            </div>
+
+            @*<h2>Minesweeper</h2>
             <ul>
                 <li><a asp-controller="Minesweeper" asp-action="Create" asp-route-rows="8" asp-route-columns="8" asp-route-mines="6">Play Easy</a></li>
                 <li><a asp-controller="Minesweeper" asp-action="Create" asp-route-rows="10" asp-route-columns="10" asp-route-mines="10">Play Medium</a></li>
-            </ul>
+            </ul>*@
         </div>
 
         <div class="col">
-            <h2>CodeBreaker</h2>
+
+            <div class="card border-dark" style="width: 18rem;">
+                <img src="~/img/CodeBreaker.png" class="card-img-top rounded rounded-lg">
+                <div class="card-body">
+                    <h2 class="card-title">CodeBreaker</h2>
+                    <p class="card-text">This fun puzzle game is all about cracking codes as fast as you can as efficent as you can.</p>
+                    <a class="btn btn-primary stretched-link" asp-controller="CodeBreaker">Play now!</a>
+                </div>
+            </div>
+            @*<h2>CodeBreaker</h2>
             <ul>
                 <li><a asp-controller="CodeBreaker" asp-action="Create" asp-route-codeLength="3" asp-route-codeOptionsLength="3">Play Easy</a></li>
                 <li><a asp-controller="CodeBreaker" asp-action="Create" asp-route-codeLength="5" asp-route-codeOptionsLength="5">Play Medium</a></li>
-            </ul>
+            </ul>*@
         </div>
 
         <div class="col">
