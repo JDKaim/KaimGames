@@ -34,12 +34,13 @@ namespace KaimGames.Web.Controllers
             return View();
         }
 
-        async public Task<IActionResult> User(int userId)
+        [Route("/Home/User")]
+        async public Task<IActionResult> GetUser(int userId)
         {
             ApplicationUser user = await this._db.Users.FindAsync(userId);
             if (user == null) { return this.RedirectToAction("Index"); }
 
-            return View(new UserViewModel(user));
+            return View("User", new UserViewModel(user));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

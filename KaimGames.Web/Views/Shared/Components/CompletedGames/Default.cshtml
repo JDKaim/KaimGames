@@ -42,7 +42,7 @@
             }
             @if (!Model.HideGameName)
             {
-                <td><a asp-controller="@game.GameName">@game.GameName</a></td>
+                <td><a asp-controller="@game.GameName" asp-action="Index">@game.GameName</a></td>
             }
             @if (!Model.HideSubType)
             {
