@@ -31,12 +31,14 @@
         <div class="row">
             @for (int column = 0; column < 3; column++)
             {
-                <div class="col-sm-1 text-center tictactoe-cell">
+                <div class="col col-sm-3 col-md-2 col-lg-1 text-center tictactoe-cell">
                     @if (Model.Game.Board.IsEmptyAt(row, column))
                     {
                         if (!Model.Game.IsOver)
                         {
-                            <a asp-action="Mark" asp-controller="TicTacToe" asp-route-row="@row" asp-route-column="@column">Mark</a>
+                            <a asp-action="Mark" asp-controller="TicTacToe" asp-route-row="@row" asp-route-column="@column">
+                                <span class="fa fa-edit tictactoe-mark"></span>
+                            </a>
                         }
                     }
                     else if (Model.Game.Board.IsXAt(row, column))

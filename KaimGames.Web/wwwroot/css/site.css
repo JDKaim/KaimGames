@@ -228,4 +228,8 @@ a.fill-div {
     font-size: xx-large;
 }
 
+.tictactoe-mark {
+    color: green;
+}
+
 /* End Tic Tac Toe */
