@@ -80,6 +80,11 @@ a.fill-div {
     text-decoration: none;
 }
 
+.front-page-card {
+    width: 18rem;
+    margin-top: 10px;
+}
+
 /* Start CodeBreaker */
 
 .codebreaker-option {

@@ -74,6 +74,8 @@ namespace KaimGames.Web.Controllers
         async public Task<IActionResult> Keep(int[] cardIndexes)
         {
             Game game = this.SessionGet<Game>(this.SessionGameKey);
+            if (game.IsGameOver) { return this.RedirectToAction("Show"); }
+
             BestHand bestHand = game.Keep(cardIndexes.Where(item => item >= 0).Select(item => game.CurrentHand.Cards[item]));
 
             this.SessionSet(this.SessionGameKey, game);

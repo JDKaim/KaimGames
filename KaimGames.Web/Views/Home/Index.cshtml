@@ -10,8 +10,8 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            
-            <div class="card border-dark" style="width: 18rem;">
+
+            <div class="card border-dark front-page-card">
                 <img src="~/img/Minesweeper.png" class="card-img-top rounded rounded-lg">
                 <div class="card-body">
                     <h2 class="card-title">Minesweeper</h2>
@@ -29,7 +29,7 @@
 
         <div class="col">
 
-            <div class="card border-dark" style="width: 18rem;">
+            <div class="card border-dark front-page-card">
                 <img src="~/img/CodeBreaker.png" class="card-img-top rounded rounded-lg">
                 <div class="card-body">
                     <h2 class="card-title">CodeBreaker</h2>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="col">
-            <div class="card border-dark" style="width: 18rem;">
+            <div class="card border-dark front-page-card">
                 <img src="~/img/TicTacToe.png" class="card-img-top rounded rounded-lg">
                 <div class="card-body">
                     <h2 class="card-title">Tic Tac Toe</h2>
@@ -53,12 +53,21 @@
                     <a class="btn btn-primary stretched-link" asp-controller="TicTacToe">Play now!</a>
                 </div>
             </div>
-
-            @*<h2>TicTacToe</h2>
-                <ul>
-                    <li><a asp-controller="TicTacToe" asp-action="Create" asp-route-bot="RandomBot">Play RandomBot</a></li>
-                    <li><a asp-controller="TicTacToe" asp-action="Create" asp-route-bot="MinMaxBot">Play MinMaxBot</a></li>
-                </ul>*@
+        </div>
+        @*<h2>TicTacToe</h2>
+        <ul>
+            <li><a asp-controller="TicTacToe" asp-action="Create" asp-route-bot="RandomBot">Play RandomBot</a></li>
+            <li><a asp-controller="TicTacToe" asp-action="Create" asp-route-bot="MinMaxBot">Play MinMaxBot</a></li>
+        </ul>*@
+        <div class="col">
+            <div class="card border-dark front-page-card">
+                <img src="~/img/VideoPoker.png" class="card-img-top rounded rounded-lg">
+                <div class="card-body">
+                    <h2 class="card-title">VideoPoker</h2>
+                    <p class="card-text">This is a classic card game. Try to get the best combinations and earn your way to the leaderboard.</p>
+                    <a class="btn btn-primary stretched-link" asp-controller="VideoPoker">Play now!</a>
+                </div>
+            </div>
         </div>
     </div>
 
