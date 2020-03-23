@@ -35,6 +35,7 @@
     <ProjectReference Include="..\KaimGames.Common\KaimGames.Common.csproj" />
     <ProjectReference Include="..\Minesweeper\KaimGames.Minesweeper.Common\KaimGames.Minesweeper.Common.csproj" />
     <ProjectReference Include="..\TicTacToe\KaimGames.TicTacToe.Common\KaimGames.TicTacToe.Common.csproj" />
+    <ProjectReference Include="..\VideoPoker\KaimGames.VideoPoker.Common\KaimGames.VideoPoker.Common.csproj" />
   </ItemGroup>
 
 

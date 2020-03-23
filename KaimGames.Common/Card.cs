@@ -26,6 +26,11 @@ namespace KaimGames.Common
             return (other.GetType() == GetType()) && this.Equals((Card)other);
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public bool Equals(Card other)
         {
             if (ReferenceEquals(null, other)) { return false; }

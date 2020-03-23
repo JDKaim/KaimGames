@@ -12,6 +12,27 @@ namespace KaimGames.VideoPoker.Common
         public readonly List<Card> Cards;
         public readonly int Points;
 
+        public string HandName
+        {
+            get
+            {
+                switch (this.HandType)
+                {
+                    case VideoPokerHands.RoyalFlush: return "Royal Flush";
+                    case VideoPokerHands.StraightFlush: return "Stright Flush";
+                    case VideoPokerHands.FourOfAKind: return "4 Of A Kind";
+                    case VideoPokerHands.FullHouse: return "Full House";
+                    case VideoPokerHands.Flush: return "Flush";
+                    case VideoPokerHands.Straight: return "Straight";
+                    case VideoPokerHands.ThreeOfAKind: return "3 Of A Kind";
+                    case VideoPokerHands.TwoPair: return "Two Pair";
+                    case VideoPokerHands.JacksOrBetter: return "Jacks or Better";
+                }
+
+                return "Insignificant";
+            }
+        }
+
         public BestHand(IEnumerable<Card> cards, VideoPokerHands handType)
         {
             this.Cards = cards.ToList();

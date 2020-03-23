@@ -23,7 +23,7 @@ namespace KaimGames.Common
 
         public void Discard(IEnumerable<Card> cards)
         {
-            foreach(Card card in cards)
+            foreach(Card card in cards.ToArray())
             {
                 Card existing = this.Cards.First(item => item == card);
                 this.Cards.Remove(existing);

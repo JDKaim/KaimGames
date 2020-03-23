@@ -233,3 +233,21 @@ a.fill-div {
 }
 
 /* End Tic Tac Toe */
+
+
+/* Start Video Poker */
+
+.videopoker-card {
+    margin: 0px;
+}
+
+.videopoker-card-selected {
+    border: 10px solid blue;
+}
+
+.videopoker-card-used {
+    border: 10px solid green;
+    margin-top: -10px;
+}
+
+/* End Video Poker */
