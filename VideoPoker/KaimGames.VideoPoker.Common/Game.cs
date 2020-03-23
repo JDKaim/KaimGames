@@ -11,31 +11,45 @@ namespace KaimGames.VideoPoker.Common
         public int Score { get; set; }
         public Deck Deck { get; set; }
         public int Round { get; set; }
+        public int TotalRounds { get; set; }
         public CardHand CurrentHand { get; set; }
 
-        public bool IsOver => this.Round == 10;
+        public bool IsGameOver { get; set; }
+        public string Name => "VideoPoker";
+        public string SubGame => $"{this.HandSize}-{this.TotalRounds}";
 
         private HandEvaluator _handEvaluator;
 
-        public Game()
+        public int HandSize { get; set; }
+
+        public Game(int handSize = 5, int totalRounds = 10)
         {
             this._handEvaluator = new HandEvaluator();
 
-            this.Score = 10;
+            this.HandSize = handSize;
+            this.Score = totalRounds;
             this.Round = 0;
+            this.TotalRounds = totalRounds;
             this.Deck = Deck.CreateStandardDeck();
             this.Deal();
         }
 
         public void Deal()
         {
-            if (this.IsOver) { return; }
+            if (this.IsGameOver) { return; }
 
             this.Score--;
             this.Round++;
 
+            if (this.CurrentHand != null)
+            {
+                this.Deck.Discard(this.CurrentHand.Cards);
+                this.CurrentHand.Discard(this.CurrentHand.Cards);
+            }
+
             this.Deck.Shuffle();
-            this.CurrentHand = this.Deck.DrawHand(5);
+
+            this.CurrentHand = this.Deck.DrawHand(this.HandSize);
         }
 
         public BestHand Keep(IEnumerable<Card> cards)
@@ -49,7 +63,12 @@ namespace KaimGames.VideoPoker.Common
             BestHand bestHand = this._handEvaluator.FindBestHand(this.CurrentHand);
 
             this.Score += bestHand.Points;
-            
+
+            if (this.Round == this.TotalRounds)
+            {
+                this.IsGameOver = true;
+            }
+
             return bestHand;
         }
     }

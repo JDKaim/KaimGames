@@ -105,6 +105,11 @@ namespace KaimGames.Common
             List<Card> cards = new List<Card>();
             for (int lcv = 0; lcv < count; lcv++)
             {
+                if (!this.Cards.Any())
+                {
+                    this.Shuffle();
+                }
+
                 cards.Add(this.Cards.Dequeue());
             }
             return cards;

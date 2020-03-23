@@ -12,7 +12,7 @@ namespace KaimGames.VideoPoker.ConsoleApp
         {
             Game game = new Game();
 
-            while (!game.IsOver)
+            while (!game.IsGameOver)
             {
                 Console.WriteLine($"Round: {game.Round} - Score: {game.Score}");
 
@@ -53,7 +53,7 @@ namespace KaimGames.VideoPoker.ConsoleApp
 
                 Console.WriteLine();
 
-                if (!game.IsOver)
+                if (!game.IsGameOver)
                 {
                     game.Deal();
                 }

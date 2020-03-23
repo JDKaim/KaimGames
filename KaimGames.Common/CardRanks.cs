@@ -6,7 +6,7 @@ namespace KaimGames.Common
 {
     public enum CardRanks
     {
-        Joker = 'J',
+        Joker = 'X',
         Ace = 'A',
         Two = '2',
         Three = '3',
