@@ -29,7 +29,7 @@ namespace KaimGames.VideoPoker.Common
                     case VideoPokerHands.JacksOrBetter: return "Jacks or Better";
                 }
 
-                return "Insignificant";
+                return "Insignificant Hand";
             }
         }
 
