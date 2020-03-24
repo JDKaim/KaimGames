@@ -6,8 +6,12 @@
 }
 
 <h2>@ViewBag.Title</h2>
-<p>@Html.ActionLink("Leaderboard", "Index", "Leaderboard", new { gameName = Model.Game.Name, subGame = Model.Game.SubGame }, null)</p>
-<p><a asp-action="Create" asp-controller="CodeBreaker" asp-route-codeLength="@Model.Game.CodeLength" asp-route-codeOptionsLength="@Model.Game.CodeOptions.Length">Restart</a></p>
+<a asp-action="Index" asp-controller="Leaderboard"
+   asp-route-gameName="@Model.Game.Name" asp-route-hideGameName="true"
+   asp-route-subGame="@Model.Game.SubGame" asp-route-hideSubGame="true"
+   asp-route-orderBy="Elapsed" asp-route-hideScore="true">
+    Leaderboard</a> |
+<a asp-action="Create" asp-controller="CodeBreaker" asp-route-codeLength="@Model.Game.CodeLength" asp-route-codeOptionsLength="@Model.Game.CodeOptions.Length">Restart</a></p>
 
 <h3>
     @if (Model.Game.IsGameOver)
