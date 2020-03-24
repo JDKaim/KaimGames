@@ -9,22 +9,19 @@
        asp-route-gameName="@Model.Game.Name" asp-route-hideGameName="true"
        asp-route-subGame="@Model.Game.SubGame" asp-route-hideSubGame="true"
        asp-route-orderBy="Score" asp-route-orderByDescending="true" asp-route-hideElapsed="true" asp-route-hideMoves="true">
-        Leaderboard</a> |
+        Leaderboard
+    </a> |
     <a asp-action="Create" asp-controller="VideoPoker" asp-route-handSize="@Model.Game.HandSize" asp-route-totalRounds="@Model.Game.TotalRounds">Restart</a>
 </p>
 
 <h3>
-    @if (Model.Game.IsGameOver)
+    @if (Model.BestHand != null)
     {
-        <span>You finished @Model.Game.TotalRounds rounds with @Model.Game.Score points!</span>
-    }
-    else if (Model.BestHand == null)
-    {
-        <span>Select cards to keep</span>
+        <span>Your @Model.BestHand.HandName was worth @Model.BestHand.Points points</span>
     }
     else
     {
-        <span>Your @Model.BestHand.HandName was worth @Model.BestHand.Points points</span>
+        <span>Select cards to keep</span>
     }
 </h3>
 
@@ -62,7 +59,7 @@
                 <td colspan="@Model.Game.HandSize" class="text-center">
                     @if (Model.Game.IsGameOver)
                     {
-                        <span>Game over!</span>
+                        <span class="text-lg-center">Game over! You finished @Model.Game.TotalRounds rounds with @Model.Game.Score points!</span>
                     }
                     else if (Model.BestHand == null)
                     {

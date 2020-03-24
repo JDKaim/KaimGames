@@ -248,7 +248,7 @@ table td.videopoker-card-td {
 
 .videopoker-card {
     margin: 0px;
-    padding: 2px;
+    padding: 5px;
 }
 
 .videopoker-card-selected {
@@ -257,8 +257,8 @@ table td.videopoker-card-td {
 
 .videopoker-card-used {
     background-color: green;
-    margin: -2px;
-    padding: 2px;
+    margin: -5px;
+    padding: 5px;
 }
 
 /* End Video Poker */
