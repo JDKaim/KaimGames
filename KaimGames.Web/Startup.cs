@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using KaimGames.Web.Models;
 using System.Threading;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace KaimGames.Web
 {
@@ -56,7 +57,7 @@ namespace KaimGames.Web
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireDigit = false;
                     options.SignIn.RequireConfirmedAccount = false;
-                   
+
                 })
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -104,7 +105,9 @@ namespace KaimGames.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-       }
+
+            app.UseRewriter((new RewriteOptions()).AddRedirectToWwwPermanent("kaimgames.com"));
+        }
     }
 
     // Lifted from https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-3/
