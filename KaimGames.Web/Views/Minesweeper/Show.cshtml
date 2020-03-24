@@ -24,7 +24,12 @@
 
 <h4 id="elapsed">&nbsp;</h4>
 <div>
-    @Html.ActionLink("Leaderboard", "Index", "Leaderboard", new { gameName = Model.Game.Name, subGame = Model.Game.SubGame }, null) |
+    <a asp-action="Index" asp-controller="Leaderboard"
+       asp-route-gameName="@Model.Game.Name" asp-route-hideGameName="true"
+       asp-route-subGame="@Model.Game.SubGame" asp-route-hideSubGame="true"
+       asp-route-orderBy="Elapsed" asp-route-hideScore="true">
+        Leaderboard
+    </a> |
     <a asp-action="Create" asp-controller="Minesweeper" asp-route-rows="@Model.Game.Board.Rows" asp-route-columns="@Model.Game.Board.Columns" asp-route-mines="@Model.Game.Mines">Restart</a>
 </div>
 
