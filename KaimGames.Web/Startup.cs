@@ -106,7 +106,9 @@ namespace KaimGames.Web
                 endpoints.MapRazorPages();
             });
 
-            app.UseRewriter((new RewriteOptions()).AddRedirectToWwwPermanent("kaimgames.com"));
+            app.UseRewriter(new RewriteOptions()
+                .AddRedirectToWwwPermanent("kaimgames.com")
+                .AddRedirectToHttpsPermanent());
         }
     }
 
