@@ -20,9 +20,11 @@ namespace KaimGames.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(
             string gameName, string subGame, string userDisplayName, int userId,
-            bool hideDisplayName, bool hideGameName, bool hideSubType, bool hideScore, bool hideElapsed, bool hideMoves,
+            bool hideDisplayName, bool hideGameName, bool hideSubGame, bool hideScore, bool hideElapsed, bool hideMoves,
             string orderBy, bool orderByDescending, DateTime? since = null, int page = 0, int pageSize = 10)
         {
+            orderBy = orderBy ?? string.Empty;
+
             IQueryable<CompletedGame> query = this._db.CompletedGames.Include(item => item.User);
 
             if (!string.IsNullOrWhiteSpace(gameName))
@@ -52,13 +54,13 @@ namespace KaimGames.Web.ViewComponents
 
             switch (orderBy.ToLower())
             {
-                case "Elapsed":
+                case "elapsed":
                     query = orderByDescending ? query.OrderByDescending(item => item.Elapsed) : query.OrderBy(item => item.Elapsed);
                     break;
-                case "Moves":
+                case "moves":
                     query = orderByDescending ? query.OrderByDescending(item => item.Moves) : query.OrderBy(item => item.Moves);
                     break;
-                case "Score":
+                case "score":
                     query = orderByDescending ? query.OrderByDescending(item => item.Score) : query.OrderBy(item => item.Score);
                     break;
                 // case: "Completed";
@@ -77,7 +79,7 @@ namespace KaimGames.Web.ViewComponents
                     HideGameName = hideGameName,
                     HideMoves = hideMoves,
                     HideScore = hideScore,
-                    HideSubType = hideSubType
+                    HideSubGame = hideSubGame
                 });
         }
 

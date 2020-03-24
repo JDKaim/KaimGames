@@ -13,7 +13,7 @@
             {
                 <th>Game</th>
             }
-            @if (!Model.HideSubType)
+            @if (!Model.HideSubGame)
             {
                 <th>Type</th>
             }
@@ -44,7 +44,7 @@
             {
                 <td><a asp-controller="@game.GameName" asp-action="Index">@game.GameName</a></td>
             }
-            @if (!Model.HideSubType)
+            @if (!Model.HideSubGame)
             {
                 <td><a asp-controller="@game.GameName" asp-action="CreateSubGame" asp-route-subGame="@game.SubGame">@game.SubGame</a></td>
             }
@@ -62,7 +62,7 @@
             }
             <td>
                 @{
-                    TimeSpan timeSpan = DateTime.UtcNow - game.Created;
+                    TimeSpan timeSpan = DateTime.UtcNow - game.Completed;
                     if (timeSpan.TotalDays > 7)
                     {
                         <span>@game.Created.ToShortDateString()</span>

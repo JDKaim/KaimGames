@@ -5,7 +5,11 @@
 
 <h2>Video Poker - Round @Model.Game.Round of @Model.Game.TotalRounds - @Model.Game.Score Points</h2>
 <p>
-    @Html.ActionLink("Leaderboard", "Index", "Leaderboard", new { gameName = Model.Game.Name, subGame = Model.Game.SubGame }, null) |
+    <a asp-action="Index" asp-controller="Leaderboard"
+       asp-route-gameName="@Model.Game.Name" asp-route-hideGameName="true"
+       asp-route-subGame="@Model.Game.SubGame" asp-route-hideSubGame="true"
+       asp-route-orderBy="Score" asp-route-orderByDescending="true" asp-route-hideElapsed="true" asp-route-hideMoves="true">
+        Leaderboard</a> |
     <a asp-action="Create" asp-controller="VideoPoker" asp-route-handSize="@Model.Game.HandSize" asp-route-totalRounds="@Model.Game.TotalRounds">Restart</a>
 </p>
 

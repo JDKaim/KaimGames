@@ -6,57 +6,12 @@
 @model LeaderboardViewModel
 
 <h2>@ViewBag.Title.</h2>
-<h3>@($"{Model.GameName} ({Model.SubGame})")</h3>
+<h3>@($"{Model.gameName} ({Model.subGame})")</h3>
 <div>
-    @Html.ActionLink("All Time", "Index", new { gameName = Model.GameName, subGame = Model.SubGame }) |
-    @Html.ActionLink("1 Week", "Index", new { gameName = Model.GameName, subGame = Model.SubGame, hours = 168 }) |
-    @Html.ActionLink("1 Day", "Index", new { gameName = Model.GameName, subGame = Model.SubGame, hours = 24 }) |
-    @Html.ActionLink("1 Hour", "Index", new { gameName = Model.GameName, subGame = Model.SubGame, hours = 1 })
+    @Html.ActionLink("All Time", "Index", Model.AdjustSince(new DateTime(2008, 3, 15))) |
+    @Html.ActionLink("Past Week", "Index", Model.AdjustSince(DateTime.UtcNow.AddDays(-7))) |
+    @Html.ActionLink("Past Day", "Index", Model.AdjustSince(DateTime.UtcNow.AddDays(-1))) |
+    @Html.ActionLink("Past Hour", "Index", Model.AdjustSince(DateTime.UtcNow.AddHours(-1)))
 </div>
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>User</th>
-            <th>Elapsed</th>
-            <th>Moves</th>
-            <th>Score</th>
-            <th>Played</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var game in Model.CompletedGames)
-        {
-            <tr>
-                <td>@game.User.DisplayName</td>
-                <td>@((game.Elapsed / 1000).ToString("0.00"))</td>
-                <td>@game.Moves</td>
-                <td>@game.Score</td>
-                <td>
-                    @{
-                        TimeSpan timeSpan = DateTime.UtcNow - game.Created;
-                        if (timeSpan.TotalDays > 7)
-                        {
-                            <span>@game.Created.ToShortDateString()</span>
-                        }
-                        else if (timeSpan.TotalDays > 1)
-                        {
-                            <span>@(Math.Round(timeSpan.TotalDays)) days ago</span>
-                        }
-                        else if (timeSpan.TotalHours > 1)
-                        {
-                            <span>@(Math.Round(timeSpan.TotalHours)) hours ago</span>
-                        }
-                        else if (timeSpan.TotalMinutes > 1)
-                        {
-                            <span>@(Math.Round(timeSpan.TotalMinutes)) minutes ago</span>
-                        }
-                        else
-                        { <span>Just now</span>}
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@await Component.InvokeAsync("CompletedGames", Model)

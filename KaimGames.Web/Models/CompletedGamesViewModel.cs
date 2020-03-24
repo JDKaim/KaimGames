@@ -12,7 +12,7 @@ namespace KaimGames.Web.Models
 
         public bool HideDisplayName { get; set; }
         public bool HideGameName { get; set; }
-        public bool HideSubType { get; set; }
+        public bool HideSubGame { get; set; }
         public bool HideScore { get; set; }
         public bool HideElapsed { get; set; }
         public bool HideMoves { get; set; }

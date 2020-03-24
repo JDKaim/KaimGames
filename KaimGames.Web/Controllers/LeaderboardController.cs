@@ -16,24 +16,28 @@ namespace KaimGames.Web.Controllers
         {
             this.Db = db;
         }
-        public ActionResult Index(string gameName, string subGame, DateTime? since, int? hours)
+        public ActionResult Index(string gameName, string subGame, string userDisplayName, int userId,
+            bool hideDisplayName, bool hideGameName, bool hideSubGame, bool hideScore, bool hideElapsed, bool hideMoves,
+            string orderBy, bool orderByDescending, DateTime? since = null, int page = 0, int pageSize = 10)
         {
-            var query = this.Db.CompletedGames.Include(item => item.User).Where((item) => (item.GameName == gameName) && (item.SubGame == subGame));
-            if (hours.HasValue)
+            return this.View(new LeaderboardViewModel()
             {
-                since = DateTime.UtcNow.AddHours(-hours.Value);
-            }
-
-            if (since.HasValue)
-            {
-                query = query.Where(item => item.Created >= since.Value);
-            }
-            query = query.OrderBy(item => item.Elapsed);
-            query = query.Take(10);
-
-            List<CompletedGame> games = query.ToList();
-
-            return this.View(new LeaderboardViewModel(gameName, subGame, games));
+                gameName = gameName,
+                subGame = subGame,
+                userDisplayName = userDisplayName,
+                userId = userId,
+                hideDisplayName = hideDisplayName,
+                hideGameName = hideGameName,
+                hideSubGame = hideSubGame,
+                hideScore = hideScore,
+                hideElapsed = hideElapsed,
+                hideMoves = hideMoves,
+                orderBy = orderBy,
+                orderByDescending = orderByDescending,
+                since = since,
+                page = page,
+                pageSize = pageSize
+            });
 
         }
     }
