@@ -242,17 +242,23 @@ a.fill-div {
 
 /* Start Video Poker */
 
+table td.videopoker-card-td {
+    padding: 2px;
+}
+
 .videopoker-card {
     margin: 0px;
+    padding: 2px;
 }
 
 .videopoker-card-selected {
-    border: 10px solid blue;
+    background-color: blue;
 }
 
 .videopoker-card-used {
-    border: 10px solid green;
-    margin-top: -10px;
+    background-color: green;
+    margin: -2px;
+    padding: 2px;
 }
 
 /* End Video Poker */

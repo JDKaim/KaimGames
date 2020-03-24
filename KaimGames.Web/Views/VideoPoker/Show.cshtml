@@ -4,8 +4,10 @@
 @model VideoPokerShowViewModel
 
 <h2>Video Poker - Round @Model.Game.Round of @Model.Game.TotalRounds - @Model.Game.Score Points</h2>
-<p>@Html.ActionLink("Leaderboard", "Index", "Leaderboard", new { gameName = Model.Game.Name, subGame = Model.Game.SubGame }, null)</p>
-<p><a asp-action="Create" asp-controller="VideoPoker" asp-route-handSize="@Model.Game.HandSize" asp-route-totalRounds="@Model.Game.TotalRounds">Restart</a></p>
+<p>
+    @Html.ActionLink("Leaderboard", "Index", "Leaderboard", new { gameName = Model.Game.Name, subGame = Model.Game.SubGame }, null) |
+    <a asp-action="Create" asp-controller="VideoPoker" asp-route-handSize="@Model.Game.HandSize" asp-route-totalRounds="@Model.Game.TotalRounds">Restart</a>
+</p>
 
 <h3>
     @if (Model.Game.IsGameOver)
@@ -24,53 +26,55 @@
 
 <h4 id="elapsed" class="text-hide">&nbsp;</h4>
 
-<div class="container">
-    <form asp-controller="VideoPoker" asp-action="Keep" method="GET">
-        <table class="table table-responsive">
-            <tbody>
-                <tr>
-                    @for (int lcv = 0; lcv < Model.Game.HandSize; lcv++)
-                    {
-                        Card card = Model.Game.CurrentHand.Cards[lcv];
-                        <td>
-                            <div class="videopoker-card">
-                                @if (Model.BestHand == null)
-                                {
-                                    <img class="img-fluid" src="@card.ImageUrl" onclick="toggle(@lcv)" />
-                                    <input name="cardIndexes" id="cardIndexes-@lcv" type="hidden" value="-1">
-                                }
-                                else if (Model.BestHand.Cards.Any(item => item.ToString() == card.ToString()))
-                                {
-                                    <img class="img-fluid videopoker-card-used" src="@card.ImageUrl" />
-                                }
-                                else
-                                {
+<form asp-controller="VideoPoker" asp-action="Keep" method="GET">
+    <table class="table table-responsive">
+        <tbody>
+            <tr>
+                @for (int lcv = 0; lcv < Model.Game.HandSize; lcv++)
+                {
+                    Card card = Model.Game.CurrentHand.Cards[lcv];
+                    <td class="videopoker-card-td">
+                        <div class="videopoker-card">
+                            @if (Model.BestHand == null)
+                            {
+                                <img class="img-fluid" src="@card.ImageUrl" onclick="toggle(@lcv)" />
+                                <input name="cardIndexes" id="cardIndexes-@lcv" type="hidden" value="-1">
+                            }
+                            else if (Model.BestHand.Cards.Any(item => item.ToString() == card.ToString()))
+                            {
+                                <div class="videopoker-card-used">
                                     <img class="img-fluid" src="@card.ImageUrl" />
-                                }
-                            </div>
-                        </td>
-                    }
-                </tr>
-                <tr>
-                    <td colspan="@Model.Game.HandSize" class="text-center">
-                        @if (Model.Game.IsGameOver)
-                        {
-                            <span>Game over!</span>
-                        }
-                        else if (Model.BestHand == null)
-                        {
-                            <button type="submit" class="btn btn-primary btn-lg btn-block">Keep</button>
-                        }
-                        else if (!Model.Game.IsGameOver)
-                        {
-                            <a asp-action="Deal" class="btn btn-primary btn-lg btn-block">Deal</a>
-                        }
+                                </div>
+                            }
+                            else
+                            {
+                                <img class="img-fluid" src="@card.ImageUrl" />
+                            }
+                        </div>
                     </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
+                }
+            </tr>
+            <tr>
+                <td colspan="@Model.Game.HandSize" class="text-center">
+                    @if (Model.Game.IsGameOver)
+                    {
+                        <span>Game over!</span>
+                    }
+                    else if (Model.BestHand == null)
+                    {
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Keep</button>
+                    }
+                    else if (!Model.Game.IsGameOver)
+                    {
+                        <a asp-action="Deal" class="btn btn-primary btn-lg btn-block">Deal</a>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
 
+<div class="container">
     <dl class="row">
         <dt class="col-2">Royal Flush</dt>
         <dd class="col-1">800</dd>
