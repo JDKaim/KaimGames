@@ -19,7 +19,7 @@ namespace KaimGames.VideoPoker.Common
                 switch (this.HandType)
                 {
                     case VideoPokerHands.RoyalFlush: return "Royal Flush";
-                    case VideoPokerHands.StraightFlush: return "Stright Flush";
+                    case VideoPokerHands.StraightFlush: return "Straight Flush";
                     case VideoPokerHands.FourOfAKind: return "4 Of A Kind";
                     case VideoPokerHands.FullHouse: return "Full House";
                     case VideoPokerHands.Flush: return "Flush";

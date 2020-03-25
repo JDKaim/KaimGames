@@ -76,7 +76,7 @@ namespace KaimGames.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -109,6 +109,34 @@ namespace KaimGames.Web
             app.UseRewriter(new RewriteOptions()
                 .AddRedirectToWwwPermanent("kaimgames.com")
                 .AddRedirectToHttpsPermanent());
+
+            this.ConfigureRoles(serviceProvider).Wait();
+        }
+
+        async public Task ConfigureRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            string adminRoleName = "Admin";
+            if (!await roleManager.RoleExistsAsync(adminRoleName))
+            {
+                await roleManager.CreateAsync(new ApplicationRole(adminRoleName));
+            }
+
+            string adminEmails = this.Configuration.GetSection("AppSettings")["AdminEmails"];
+            if (!string.IsNullOrWhiteSpace(adminEmails))
+            {
+                foreach(string email in adminEmails.Split(","))
+                {
+                    ApplicationUser user = await userManager.FindByEmailAsync(email);
+                    if (user != null)
+                    {
+                        await userManager.AddToRoleAsync(user, adminRoleName);
+                    }
+                }
+            }
+
         }
     }
 

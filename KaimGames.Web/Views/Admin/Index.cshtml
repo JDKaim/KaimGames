@@ -1,0 +1,30 @@
+﻿@model AdminViewModel
+
+@{
+    ViewData["Title"] = "Admin";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>You are an admin!</p>
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Display Name</th>
+            <th>Email</th>
+            <th>History</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ApplicationUser user in Model.Users)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.DisplayName</td>
+                <td>@user.Email</td>
+                <td><a asp-controller="Home" asp-action="User" asp-route-userId="@user.Id">History</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
