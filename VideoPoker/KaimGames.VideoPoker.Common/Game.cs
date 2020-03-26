@@ -24,6 +24,9 @@ namespace KaimGames.VideoPoker.Common
 
         public Game(int handSize = 5, int totalRounds = 10)
         {
+            if ((handSize < 4) || (handSize > 10)) { throw new ArgumentException("Poker hand size must be 4-10 cards"); }
+            if ((totalRounds < 1) || (totalRounds > 100)) { throw new ArgumentException("Poker rounds must be 1-100"); }
+
             this._handEvaluator = new HandEvaluator();
 
             this.HandSize = handSize;

@@ -111,7 +111,7 @@ namespace KaimGames.VideoPoker.Common
             // If there's an Ace (will be at index 0), then add a copy of it to the end (index 13) so we can test it for both high and low.
             if (cardIndexMap.ContainsKey(0))
             {
-                cardIndexMap.Add(13, cards.First());
+                cardIndexMap.Add(13, cardIndexMap[0]);
             }
 
             // Start with the highest possible card (Ace high) and check to see if it exists in the hand, as well as the four previous cards required.
