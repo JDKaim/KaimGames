@@ -1,0 +1,6 @@
+﻿@using KaimGames.Web.Models
+@model UserViewModel
+
+<h1>@Model.User.DisplayName</h1>
+
+@await Component.InvokeAsync("CompletedGames", new { userId = Model.User.Id, page = 0, pageSize = 100, orderBy = "Completed", orderByDescending = true, hideDisplayName = true })

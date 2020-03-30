@@ -2,36 +2,37 @@
 
 @model MinesweeperGameViewModel
 
-@{
-    ViewBag.Title = $"Minesweeper: {(Model.Game.Board.Rows > 10 ? "Hard" : (Model.Game.Board.Rows < 10) ? "Easy" : "Medium")}";
-}
 
-<h2>@ViewBag.Title.</h2>
-<p>@Html.ActionLink("Leaderboard", "Leaderboard", "Home", new { rows = Model.Game.Board.Rows, columns = Model.Game.Board.Columns, mines = Model.Game.Mines }, null)</p>
-<p><a asp-action="StartGame" asp-controller="Minesweeper" asp-route-rows="@Model.Game.Board.Rows" asp-route-columns="@Model.Game.Board.Columns" asp-route-mines="@Model.Game.Mines">Restart</a></p>
-
-<h3>
+<h2>
+    Minesweeper -
     @if (Model.Game.IsWon)
     {
-        <span>You won!</span>
-        <span>Score: @Model.Game.Score |</span>
-        <span>Moves: @Model.Game.Moves</span>
+        <span class="text-success">You Won!</span>
     }
     else if (Model.Game.IsLost)
     {
         <span class="text-danger">You lost!</span>
-        <span>Score: @Model.Game.Score |</span>
-        <span>Moves: @Model.Game.Moves</span>
     }
     else
     {
-        <span>@Model.Game.FlagsLeft flags left.</span>
-        <span>Score: @Model.Game.Score |</span>
-        <span>Moves: @Model.Game.Moves</span>
+        <span>Flags: @Model.Game.FlagsLeft |</span>
     }
-</h3>
+
+    Score: @Model.Game.Score |
+    Moves: @Model.Game.Moves
+</h2>
 
 <h4 id="elapsed">&nbsp;</h4>
+<div>
+    <a asp-action="Index" asp-controller="Leaderboard"
+       asp-route-gameName="@Model.Game.Name" asp-route-hideGameName="true"
+       asp-route-subGame="@Model.Game.SubGame" asp-route-hideSubGame="true"
+       asp-route-orderBy="Elapsed" asp-route-hideScore="true">
+        Leaderboard
+    </a> |
+    <a asp-action="Create" asp-controller="Minesweeper" asp-route-rows="@Model.Game.Board.Rows" asp-route-columns="@Model.Game.Board.Columns" asp-route-mines="@Model.Game.Mines">Restart</a>
+</div>
+
 
 @for (int row = 0; row < Model.Game.Board.Rows; row++)
 {

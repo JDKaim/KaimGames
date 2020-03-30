@@ -1,0 +1,57 @@
+﻿@using KaimGames.TicTacToe.Common;
+
+@model TicTacToeGameViewModel
+@{
+    ViewBag.Title = "Play";
+}
+
+
+<h2>
+    @if (Model.Game.IsXWin)
+    {
+        <span class="text-success">You won!</span>
+    }
+    else if (Model.Game.IsOWin)
+    {
+        <span class="text-danger">You lost!</span>
+    }
+    else if (Model.Game.IsTie)
+    {
+        <span class="text-secondary">You tied!</span>
+    }
+    else
+    {
+        <span>Play!</span>
+    }
+</h2>
+<p><a class="navbar-brand" asp-area="" asp-controller="TicTacToe" asp-action="Create" asp-route-bot="@Model.BotName">Restart</a></p>
+<div class="container">
+    @for (int row = 0; row < 3; row++)
+    {
+        <div class="row">
+            @for (int column = 0; column < 3; column++)
+            {
+                <div class="col col-sm-3 col-md-2 col-lg-1 text-center tictactoe-cell">
+                    @if (Model.Game.Board.IsEmptyAt(row, column))
+                    {
+                        if (!Model.Game.IsOver)
+                        {
+                            <a asp-action="Mark" asp-controller="TicTacToe" asp-route-row="@row" asp-route-column="@column">
+                                <span class="fa fa-edit tictactoe-mark"></span>
+                            </a>
+                        }
+                    }
+                    else if (Model.Game.Board.IsXAt(row, column))
+                    {
+                        <strong class="text-danger">X</strong>
+                    }
+                    else
+                    {
+                        <strong class="text-primary">O</strong>
+                    }
+                </div>
+            }
+        </div>
+    }
+
+</div>

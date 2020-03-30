@@ -8,21 +8,17 @@ using Microsoft.Extensions.Logging;
 using KaimGames.Web.Models;
 using KaimGames.CodeBreaker.Common;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using KaimGames.Web.Data;
 
 namespace KaimGames.Web.Controllers
 {
     [Authorize]
-    public class CodeBreakerController : Controller
-    {
-        const string SessionPrefix = "CodeBreaker";
-
-        private string SessionGameKey => $"{SessionPrefix}.Game";
-
-        private readonly ILogger<HomeController> _logger;
-
-        public CodeBreakerController(ILogger<HomeController> logger)
+    public class CodeBreakerController : GameControllerBase
+    {        
+        public CodeBreakerController(ILogger<GameControllerBase> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext db) :
+            base("CodeBreaker", logger, userManager, db)
         {
-            _logger = logger;
         }
 
         public IActionResult Index()
@@ -30,47 +26,72 @@ namespace KaimGames.Web.Controllers
             return View();
         }
 
-        public IActionResult CreateEasy()
+        public IActionResult CreateSubGame(string subGame)
         {
-            return this.Create(3, 3);
-        }
-
-        public IActionResult CreateMedium()
-        {
-            return this.Create(5, 5);
-        }
-
-        public IActionResult CreateHard()
-        {
-            return this.Create(7, 7);
-        }
-
-        public IActionResult CreateExpert()
-        {
-            return this.Create(10, 10);
+            int[] parts = subGame.Split('-').Select(item => int.Parse(item)).ToArray();
+            return this.Create(parts[0], parts[1]);
         }
 
         public IActionResult Create(int codeLength, int codeOptionsLength)
         {
-            this.HttpContext.Session.Set(this.SessionGameKey, Game.Create(codeLength, codeOptionsLength));
+            this.SessionSet(this.SessionGameKey, Game.Create(codeLength, codeOptionsLength));
             return this.RedirectToAction("Show");
         }
 
         public IActionResult Show()
         {
-            Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
+            Game game = this.SessionGet<Game>(this.SessionGameKey);
             if (game == null) { return this.RedirectToAction("Index"); }
 
-            return this.View(new CodeBreakerGameViewModel(game));
+            DateTime created = this.SessionGet<DateTime>(this.SessionGameStartedKey);
+            if (!game.IsGameOver)
+            {
+                return View(new CodeBreakerGameViewModel(game, (DateTime.UtcNow - this.SessionGet<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds));
+            }
+            else
+            {
+                return View(new CodeBreakerGameViewModel(game, this.SessionGet<double>(this.SessionGameElapsedKey)));
+            }
         }
-
-        public IActionResult Guess(char[] code)
+               
+        async public Task<IActionResult> Guess(char[] code)
         {
-            Game game = this.HttpContext.Session.Get<Game>(this.SessionGameKey);
+            Game game = this.SessionGet<Game>(this.SessionGameKey);
+
+            if (!game.Guesses.Any())
+            {
+                this.SessionSet(this.SessionGameStartedKey, DateTime.UtcNow);
+            }
+
             game.Guess(code);
-            this.HttpContext.Session.Set(this.SessionGameKey, game);
+            this.SessionSet(this.SessionGameKey, game);
+
+            await this.ProcessIfEndOfGame(game);
 
             return this.RedirectToAction("Show");
+        }
+
+        async public Task ProcessIfEndOfGame(Game game)
+        {
+            if (game.IsGameOver)
+            {
+                this.SessionSet(this.SessionGameElapsedKey, (DateTime.UtcNow - this.SessionGet<DateTime>(this.SessionGameStartedKey)).TotalMilliseconds);
+                ApplicationUser user = await this.GetLoggedInUser();
+
+                this.Db.CompletedGames.Add(
+                    new CompletedGame()
+                    {
+                        User = user,
+                        GameName = game.Name,
+                        SubGame = game.SubGame,
+                        Moves = game.Guesses.Count,
+                        Score = game.Guesses.Count,
+                        Created = this.SessionGet<DateTime>(this.SessionGameStartedKey),
+                        Completed = DateTime.UtcNow,
+                        Elapsed = this.SessionGet<double>(this.SessionGameElapsedKey)
+                    });
+                await this.Db.SaveChangesAsync();
+            }
         }
     }
 }

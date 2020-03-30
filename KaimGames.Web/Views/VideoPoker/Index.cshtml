@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "CodeBreaker";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h1 class="display-4">Play</h1>
+            <p><a class="navbar-brand" asp-controller="VideoPoker" asp-action="Create" asp-route-handSize="7" asp-route-totalRounds="10">Easy (7 cards)</a></p>
+            <p><a class="navbar-brand" asp-controller="VideoPoker" asp-action="Create" asp-route-handSize="6" asp-route-totalRounds="10">Medium (6 cards)</a></p>
+            <p><a class="navbar-brand" asp-controller="VideoPoker" asp-action="Create" asp-route-handSize="5" asp-route-totalRounds="10">Hard (5 card)</a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Recent Games</h2>
+            @await Component.InvokeAsync("CompletedGames", new { gameName = "VideoPoker", page = 0, pageSize = 10, orderBy = "Completed", orderByDescending = true, hideGameName = true, hideElapsed = true, hideMoves = true })
+        </div>
+    </div>
+</div>

@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using KaimGames.Web.Models;
 using System.Threading;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace KaimGames.Web
 {
@@ -38,14 +39,30 @@ namespace KaimGames.Web
                 options.Cookie.IsEssential = true;
             });
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddIdentity<ApplicationUser, ApplicationRole>(
+                options =>
+                {
+                    // Making password requirements as simple as possible.
+                    options.Password.RequiredLength = 1;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireDigit = false;
+                    options.SignIn.RequireConfirmedAccount = false;
+
+                })
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
             // This is currently enabled since it seems to be working now. If there are issues, then consider commenting
@@ -59,7 +76,7 @@ namespace KaimGames.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -88,7 +105,39 @@ namespace KaimGames.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-       }
+
+            app.UseRewriter(new RewriteOptions()
+                .AddRedirectToWwwPermanent("kaimgames.com")
+                .AddRedirectToHttpsPermanent());
+
+            this.ConfigureRoles(serviceProvider).Wait();
+        }
+
+        async public Task ConfigureRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            string adminRoleName = "Admin";
+            if (!await roleManager.RoleExistsAsync(adminRoleName))
+            {
+                await roleManager.CreateAsync(new ApplicationRole(adminRoleName));
+            }
+
+            string adminEmails = this.Configuration.GetSection("AppSettings")["AdminEmails"];
+            if (!string.IsNullOrWhiteSpace(adminEmails))
+            {
+                foreach(string email in adminEmails.Split(","))
+                {
+                    ApplicationUser user = await userManager.FindByEmailAsync(email);
+                    if (user != null)
+                    {
+                        await userManager.AddToRoleAsync(user, adminRoleName);
+                    }
+                }
+            }
+
+        }
     }
 
     // Lifted from https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-3/

@@ -8,6 +8,8 @@ namespace KaimGames.Minesweeper.Common
     {
         public Board Board { get; set; }
         public int Mines { get; set; }
+
+        public string Name => "Minesweeper";
         public string SubGame
         {
             get

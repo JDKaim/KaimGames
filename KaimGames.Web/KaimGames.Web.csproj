@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -25,7 +25,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
 
@@ -33,11 +35,14 @@
     <ProjectReference Include="..\CodeBreaker\KaimGames.CodeBreaker.Common\KaimGames.CodeBreaker.Common.csproj" />
     <ProjectReference Include="..\KaimGames.Common\KaimGames.Common.csproj" />
     <ProjectReference Include="..\Minesweeper\KaimGames.Minesweeper.Common\KaimGames.Minesweeper.Common.csproj" />
+    <ProjectReference Include="..\TicTacToe\KaimGames.TicTacToe.Common\KaimGames.TicTacToe.Common.csproj" />
+    <ProjectReference Include="..\VideoPoker\KaimGames.VideoPoker.Common\KaimGames.VideoPoker.Common.csproj" />
   </ItemGroup>
 
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>

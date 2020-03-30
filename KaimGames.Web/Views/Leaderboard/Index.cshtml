@@ -1,0 +1,17 @@
+﻿@using KaimGames.Web.Models
+@{
+    ViewBag.Title = "Leaderboard";
+}
+
+@model LeaderboardViewModel
+
+<h2>@ViewBag.Title.</h2>
+<h3>@($"{Model.gameName} ({Model.subGame})")</h3>
+<div>
+    @Html.ActionLink("All Time", "Index", Model.AdjustSince(new DateTime(2008, 3, 15))) |
+    @Html.ActionLink("Past Week", "Index", Model.AdjustSince(DateTime.UtcNow.AddDays(-7))) |
+    @Html.ActionLink("Past Day", "Index", Model.AdjustSince(DateTime.UtcNow.AddDays(-1))) |
+    @Html.ActionLink("Past Hour", "Index", Model.AdjustSince(DateTime.UtcNow.AddHours(-1)))
+</div>
+
+@await Component.InvokeAsync("CompletedGames", Model)

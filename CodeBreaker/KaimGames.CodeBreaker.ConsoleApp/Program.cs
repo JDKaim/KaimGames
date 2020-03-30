@@ -55,7 +55,7 @@ namespace KaimGames.CodeBreaker.ConsoleApp
 
             Console.WriteLine($"Starting game with {new string(game.Code)} ({game.CodeLength}) using {new string(game.CodeOptions)}");
 
-            while (!game.IsOver)
+            while (!game.IsGameOver)
             {
                 string guess = Console.ReadLine();
 

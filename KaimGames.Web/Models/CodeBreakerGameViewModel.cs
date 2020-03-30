@@ -9,12 +9,14 @@ namespace KaimGames.Web.Models
     public class CodeBreakerGameViewModel
     {
         public readonly Game Game;
+        public readonly double Elapsed;
         public readonly char[] PreviousCode;
         public readonly List<SelectList> CodeOptionSelectLists;
 
         public readonly Dictionary<char, string> CodeOptionMap =
             new Dictionary<char, string>()
             {
+                // Disabling these because they don't consistently render in the dropdowns on Chrome and Safari.
                 //{ '1', "&#xf1fd;" },
                 //{ '2', "&#xf1d8;" },
                 //{ '3', "&#xf091;" },
@@ -37,8 +39,9 @@ namespace KaimGames.Web.Models
                 { '0', "0" },
             };
 
-        public CodeBreakerGameViewModel(Game game)
+        public CodeBreakerGameViewModel(Game game, double elapsed)
         {
+            this.Elapsed = elapsed;
             this.Game = game;
 
             if (game.Guesses.Any())
