@@ -34,7 +34,7 @@ namespace KaimGames.Common
                     new Card(CardSuits.Hearts, CardRanks.Jack),
                     new Card(CardSuits.Hearts, CardRanks.Queen),
                     new Card(CardSuits.Hearts, CardRanks.King),
-                    new Card(CardSuits.Hearts, CardRanks.Ace),
+                    new Card(CardSuits.Diamonds, CardRanks.Ace),
                     new Card(CardSuits.Diamonds, CardRanks.Two),
                     new Card(CardSuits.Diamonds, CardRanks.Three),
                     new Card(CardSuits.Diamonds, CardRanks.Four),
