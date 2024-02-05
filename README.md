@@ -1,1 +1,1 @@
-Production site at https://www.kaimgames.com. 
+Production site at https://games.jdkaim.com. 
